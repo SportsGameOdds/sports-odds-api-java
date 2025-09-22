@@ -27,9 +27,9 @@ configure<PublishingExtension> {
                 }
 
                 scm {
-                    connection.set("scm:git:git://github.com/stainless-sdks/sports-odds-api-java.git")
-                    developerConnection.set("scm:git:git://github.com/stainless-sdks/sports-odds-api-java.git")
-                    url.set("https://github.com/stainless-sdks/sports-odds-api-java")
+                    connection.set("scm:git:git://github.com/SportsGameOdds/sports-odds-api-java.git")
+                    developerConnection.set("scm:git:git://github.com/SportsGameOdds/sports-odds-api-java.git")
+                    url.set("https://github.com/SportsGameOdds/sports-odds-api-java")
                 }
 
                 versionMapping {
