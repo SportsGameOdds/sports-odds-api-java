@@ -18,6 +18,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class Stat
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val description: JsonField<String>,
     private val displays: JsonField<Displays>,
@@ -357,6 +358,7 @@ private constructor(
             (units.asKnown().getOrNull()?.validity() ?: 0)
 
     class Displays
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val long_: JsonField<String>,
         private val short_: JsonField<String>,
@@ -526,6 +528,7 @@ private constructor(
     }
 
     class SupportedLevels
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val all: JsonField<Boolean>,
         private val player: JsonField<Boolean>,
@@ -827,6 +830,7 @@ private constructor(
     }
 
     class Units
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val long_: JsonField<Long>,
         private val short_: JsonField<Short>,
@@ -978,6 +982,7 @@ private constructor(
                 (short_.asKnown().getOrNull()?.validity() ?: 0)
 
         class Long
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val plural: JsonField<String>,
             private val singular: JsonField<String>,
@@ -1158,6 +1163,7 @@ private constructor(
         }
 
         class Short
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val plural: JsonField<String>,
             private val singular: JsonField<String>,

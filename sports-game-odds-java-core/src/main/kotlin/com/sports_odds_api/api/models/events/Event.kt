@@ -20,6 +20,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class Event
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val activity: JsonField<Activity>,
     private val eventId: JsonField<String>,
@@ -491,6 +492,7 @@ private constructor(
             (if (type.asKnown().isPresent) 1 else 0)
 
     class Activity
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val count: JsonField<Double>,
         private val score: JsonField<Double>,
@@ -660,6 +662,7 @@ private constructor(
     }
 
     class Info
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val seasonWeek: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
@@ -1099,6 +1102,7 @@ private constructor(
     }
 
     class Status
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val cancelled: JsonField<Boolean>,
         private val completed: JsonField<Boolean>,
@@ -1793,6 +1797,7 @@ private constructor(
                 (if (startsAt.asKnown().isPresent) 1 else 0)
 
         class Periods
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val ended: JsonField<List<String>>,
             private val started: JsonField<List<String>>,
@@ -2060,6 +2065,7 @@ private constructor(
     }
 
     class Teams
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val away: JsonField<Away>,
         private val home: JsonField<Home>,
@@ -2211,6 +2217,7 @@ private constructor(
                 (home.asKnown().getOrNull()?.validity() ?: 0)
 
         class Away
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val colors: JsonField<Colors>,
             private val logo: JsonField<String>,
@@ -2503,6 +2510,7 @@ private constructor(
                     (if (teamId.asKnown().isPresent) 1 else 0)
 
             class Colors
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val primary: JsonField<String>,
                 private val primaryContrast: JsonField<String>,
@@ -2781,6 +2789,7 @@ private constructor(
             }
 
             class Names
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val long_: JsonField<String>,
                 private val medium: JsonField<String>,
@@ -3022,6 +3031,7 @@ private constructor(
         }
 
         class Home
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val colors: JsonField<Colors>,
             private val logo: JsonField<String>,
@@ -3314,6 +3324,7 @@ private constructor(
                     (if (teamId.asKnown().isPresent) 1 else 0)
 
             class Colors
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val primary: JsonField<String>,
                 private val primaryContrast: JsonField<String>,
@@ -3592,6 +3603,7 @@ private constructor(
             }
 
             class Names
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val long_: JsonField<String>,
                 private val medium: JsonField<String>,

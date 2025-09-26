@@ -17,6 +17,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class AccountUsage
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val customerId: JsonField<String>,
     private val email: JsonField<String>,
@@ -314,6 +315,7 @@ private constructor(
             (if (tier.asKnown().isPresent) 1 else 0)
 
     class RateLimits
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val perDay: JsonField<RateLimitInterval>,
         private val perHour: JsonField<RateLimitInterval>,

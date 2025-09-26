@@ -20,6 +20,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class StreamEventsResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val channel: JsonField<String>,
     private val data: JsonField<List<Event>>,
@@ -316,6 +317,7 @@ private constructor(
             (if (user.asKnown().isPresent) 1 else 0)
 
     class PusherOptions
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val channelAuthorization: JsonField<ChannelAuthorization>,
         private val cluster: JsonField<String>,
@@ -682,6 +684,7 @@ private constructor(
                 (if (wssPort.asKnown().isPresent) 1 else 0)
 
         class ChannelAuthorization
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val endpoint: JsonField<String>,
             private val headers: JsonField<Headers>,
