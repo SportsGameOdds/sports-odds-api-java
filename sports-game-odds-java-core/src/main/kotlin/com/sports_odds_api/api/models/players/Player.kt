@@ -19,6 +19,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class Player
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val aliases: JsonField<List<String>>,
     private val jerseyNumber: JsonField<Double>,
@@ -455,6 +456,7 @@ private constructor(
             (if (teamId.asKnown().isPresent) 1 else 0)
 
     class Lookups
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val anyName: JsonField<List<String>>,
         private val fullName: JsonField<List<String>>,
@@ -716,6 +718,7 @@ private constructor(
     }
 
     class Names
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val display: JsonField<String>,
         private val firstName: JsonField<String>,

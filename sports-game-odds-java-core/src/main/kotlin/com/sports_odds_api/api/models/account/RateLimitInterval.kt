@@ -29,6 +29,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class RateLimitInterval
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val currentEntities: JsonField<Long>,
     private val currentRequests: JsonField<Long>,

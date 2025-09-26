@@ -16,6 +16,7 @@ import java.util.Objects
 import java.util.Optional
 
 class League
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val enabled: JsonField<Boolean>,
     private val leagueId: JsonField<String>,

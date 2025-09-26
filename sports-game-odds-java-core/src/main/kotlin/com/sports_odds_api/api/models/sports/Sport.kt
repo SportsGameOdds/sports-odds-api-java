@@ -19,6 +19,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class Sport
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val backgroundImage: JsonField<String>,
     private val basePeriods: JsonField<List<String>>,
@@ -626,6 +627,7 @@ private constructor(
             (if (squareImage.asKnown().isPresent) 1 else 0)
 
     class EventWord
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val long_: JsonField<Long>,
         private val short_: JsonField<Short>,
@@ -777,6 +779,7 @@ private constructor(
                 (short_.asKnown().getOrNull()?.validity() ?: 0)
 
         class Long
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val plural: JsonField<String>,
             private val singular: JsonField<String>,
@@ -957,6 +960,7 @@ private constructor(
         }
 
         class Short
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val plural: JsonField<String>,
             private val singular: JsonField<String>,
@@ -1156,6 +1160,7 @@ private constructor(
     }
 
     class PointWord
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val long_: JsonField<Long>,
         private val short_: JsonField<Short>,
@@ -1307,6 +1312,7 @@ private constructor(
                 (short_.asKnown().getOrNull()?.validity() ?: 0)
 
         class Long
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val plural: JsonField<String>,
             private val singular: JsonField<String>,
@@ -1487,6 +1493,7 @@ private constructor(
         }
 
         class Short
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val plural: JsonField<String>,
             private val singular: JsonField<String>,
