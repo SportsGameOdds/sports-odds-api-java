@@ -5,7 +5,7 @@ package com.sports_odds_api.api.models.events
 import com.sports_odds_api.api.core.AutoPager
 import com.sports_odds_api.api.core.Page
 import com.sports_odds_api.api.core.checkRequired
-import com.sports_odds_api.api.models.DataEnvelope
+import com.sports_odds_api.api.models.events.EventGetPageResponse
 import com.sports_odds_api.api.services.blocking.EventService
 import java.util.Objects
 import java.util.Optional
@@ -16,7 +16,7 @@ class EventGetPage
 private constructor(
     private val service: EventService,
     private val params: EventGetParams,
-    private val response: DataEnvelope<Event>,
+    private val response: EventGetPageResponse,
 ) : Page<Event> {
 
     /**
@@ -24,14 +24,14 @@ private constructor(
      *
      * @see EventGetPageResponse.data
      */
-    fun data(): List<Event> = response._data().getOptional("data").getOrNull() ?: emptyList()
+    fun data(): List<Event> = response.data().getOrNull() ?: emptyList()
 
     /**
      * Delegates to [EventGetPageResponse], but gracefully handles missing data.
      *
      * @see EventGetPageResponse.nextCursor
      */
-    fun nextCursor(): Optional<String> = response._nextCursor().getOptional("nextCursor")
+    fun nextCursor(): Optional<String> = response.nextCursor()
 
     override fun items(): List<Event> = data()
 
@@ -52,7 +52,7 @@ private constructor(
     fun params(): EventGetParams = params
 
     /** The response that this page was parsed from. */
-    fun response(): DataEnvelope<Event> = response
+    fun response(): EventGetPageResponse = response
 
     fun toBuilder() = Builder().from(this)
 
@@ -76,7 +76,7 @@ private constructor(
 
         private var service: EventService? = null
         private var params: EventGetParams? = null
-        private var response: DataEnvelope<Event>? = null
+        private var response: EventGetPageResponse? = null
 
         @JvmSynthetic
         internal fun from(eventGetPage: EventGetPage) = apply {
@@ -91,7 +91,7 @@ private constructor(
         fun params(params: EventGetParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: DataEnvelope<Event>) = apply { this.response = response }
+        fun response(response: EventGetPageResponse) = apply { this.response = response }
 
         /**
          * Returns an immutable instance of [EventGetPage].

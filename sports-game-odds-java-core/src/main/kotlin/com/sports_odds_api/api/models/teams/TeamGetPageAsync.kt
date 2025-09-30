@@ -5,7 +5,7 @@ package com.sports_odds_api.api.models.teams
 import com.sports_odds_api.api.core.AutoPagerAsync
 import com.sports_odds_api.api.core.PageAsync
 import com.sports_odds_api.api.core.checkRequired
-import com.sports_odds_api.api.models.DataEnvelope
+import com.sports_odds_api.api.models.teams.TeamGetPageResponse
 import com.sports_odds_api.api.services.async.TeamServiceAsync
 import java.util.Objects
 import java.util.Optional
@@ -19,7 +19,7 @@ private constructor(
     private val service: TeamServiceAsync,
     private val streamHandlerExecutor: Executor,
     private val params: TeamGetParams,
-    private val response: DataEnvelope<Team>,
+    private val response: TeamGetPageResponse,
 ) : PageAsync<Team> {
 
     /**
@@ -27,14 +27,14 @@ private constructor(
      *
      * @see TeamGetPageResponse.data
      */
-    fun data(): List<Team> = response._data().getOptional("data").getOrNull() ?: emptyList()
+    fun data(): List<Team> = response.data().getOrNull() ?: emptyList()
 
     /**
      * Delegates to [TeamGetPageResponse], but gracefully handles missing data.
      *
      * @see TeamGetPageResponse.nextCursor
      */
-    fun nextCursor(): Optional<String> = response._nextCursor().getOptional("nextCursor")
+    fun nextCursor(): Optional<String> = response.nextCursor()
 
     override fun items(): List<Team> = data()
 
@@ -55,7 +55,7 @@ private constructor(
     fun params(): TeamGetParams = params
 
     /** The response that this page was parsed from. */
-    fun response(): DataEnvelope<Team> = response
+    fun response(): TeamGetPageResponse = response
 
     fun toBuilder() = Builder().from(this)
 
@@ -81,7 +81,7 @@ private constructor(
         private var service: TeamServiceAsync? = null
         private var streamHandlerExecutor: Executor? = null
         private var params: TeamGetParams? = null
-        private var response: DataEnvelope<Team>? = null
+        private var response: TeamGetPageResponse? = null
 
         @JvmSynthetic
         internal fun from(teamGetPageAsync: TeamGetPageAsync) = apply {
@@ -101,7 +101,7 @@ private constructor(
         fun params(params: TeamGetParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: DataEnvelope<Team>) = apply { this.response = response }
+        fun response(response: TeamGetPageResponse) = apply { this.response = response }
 
         /**
          * Returns an immutable instance of [TeamGetPageAsync].

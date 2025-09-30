@@ -14,7 +14,7 @@ import com.sports_odds_api.api.core.http.HttpResponse.Handler
 import com.sports_odds_api.api.core.http.HttpResponseFor
 import com.sports_odds_api.api.core.http.parseable
 import com.sports_odds_api.api.core.prepareAsync
-import com.sports_odds_api.api.models.DataEnvelope
+import com.sports_odds_api.api.models.players.PlayerGetPageResponse
 import com.sports_odds_api.api.models.players.Player
 import com.sports_odds_api.api.models.players.PlayerGetPageAsync
 import com.sports_odds_api.api.models.players.PlayerGetParams
@@ -53,8 +53,8 @@ class PlayerServiceAsyncImpl internal constructor(private val clientOptions: Cli
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val getHandler: Handler<DataEnvelope<Player>> =
-            jsonHandler<DataEnvelope<Player>>(clientOptions.jsonMapper)
+        private val getHandler: Handler<PlayerGetPageResponse> =
+            jsonHandler<PlayerGetPageResponse>(clientOptions.jsonMapper)
 
         override fun get(
             params: PlayerGetParams,

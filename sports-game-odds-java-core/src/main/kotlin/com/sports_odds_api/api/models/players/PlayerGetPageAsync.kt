@@ -5,7 +5,7 @@ package com.sports_odds_api.api.models.players
 import com.sports_odds_api.api.core.AutoPagerAsync
 import com.sports_odds_api.api.core.PageAsync
 import com.sports_odds_api.api.core.checkRequired
-import com.sports_odds_api.api.models.DataEnvelope
+import com.sports_odds_api.api.models.players.PlayerGetPageResponse
 import com.sports_odds_api.api.services.async.PlayerServiceAsync
 import java.util.Objects
 import java.util.Optional
@@ -19,7 +19,7 @@ private constructor(
     private val service: PlayerServiceAsync,
     private val streamHandlerExecutor: Executor,
     private val params: PlayerGetParams,
-    private val response: DataEnvelope<Player>,
+    private val response: PlayerGetPageResponse,
 ) : PageAsync<Player> {
 
     /**
@@ -27,14 +27,14 @@ private constructor(
      *
      * @see PlayerGetPageResponse.data
      */
-    fun data(): List<Player> = response._data().getOptional("data").getOrNull() ?: emptyList()
+    fun data(): List<Player> = response.data().getOrNull() ?: emptyList()
 
     /**
      * Delegates to [PlayerGetPageResponse], but gracefully handles missing data.
      *
      * @see PlayerGetPageResponse.nextCursor
      */
-    fun nextCursor(): Optional<String> = response._nextCursor().getOptional("nextCursor")
+    fun nextCursor(): Optional<String> = response.nextCursor()
 
     override fun items(): List<Player> = data()
 
@@ -55,7 +55,7 @@ private constructor(
     fun params(): PlayerGetParams = params
 
     /** The response that this page was parsed from. */
-    fun response(): DataEnvelope<Player> = response
+    fun response(): PlayerGetPageResponse = response
 
     fun toBuilder() = Builder().from(this)
 
@@ -81,7 +81,7 @@ private constructor(
         private var service: PlayerServiceAsync? = null
         private var streamHandlerExecutor: Executor? = null
         private var params: PlayerGetParams? = null
-        private var response: DataEnvelope<Player>? = null
+        private var response: PlayerGetPageResponse? = null
 
         @JvmSynthetic
         internal fun from(playerGetPageAsync: PlayerGetPageAsync) = apply {
@@ -101,7 +101,7 @@ private constructor(
         fun params(params: PlayerGetParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: DataEnvelope<Player>) = apply { this.response = response }
+        fun response(response: PlayerGetPageResponse) = apply { this.response = response }
 
         /**
          * Returns an immutable instance of [PlayerGetPageAsync].

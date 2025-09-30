@@ -14,7 +14,7 @@ import com.sports_odds_api.api.core.http.HttpResponse.Handler
 import com.sports_odds_api.api.core.http.HttpResponseFor
 import com.sports_odds_api.api.core.http.parseable
 import com.sports_odds_api.api.core.prepare
-import com.sports_odds_api.api.models.DataEnvelope
+import com.sports_odds_api.api.models.events.EventGetPageResponse
 import com.sports_odds_api.api.models.events.Event
 import com.sports_odds_api.api.models.events.EventGetPage
 import com.sports_odds_api.api.models.events.EventGetParams
@@ -49,8 +49,8 @@ class EventServiceImpl internal constructor(private val clientOptions: ClientOpt
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val getHandler: Handler<DataEnvelope<Event>> =
-            jsonHandler<DataEnvelope<Event>>(clientOptions.jsonMapper)
+        private val getHandler: Handler<EventGetPageResponse> =
+            jsonHandler<EventGetPageResponse>(clientOptions.jsonMapper)
 
         override fun get(
             params: EventGetParams,
