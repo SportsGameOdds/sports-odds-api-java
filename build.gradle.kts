@@ -8,7 +8,7 @@ repositories {
 
 allprojects {
     group = "com.sportsgameodds.api"
-    version = "1.0.0" // x-release-please-version
+    version = "1.1.0" // x-release-please-version
 }
 
 subprojects {
@@ -31,6 +31,6 @@ subprojects {
 // Avoid race conditions between `dokkaJavadocCollector` and `dokkaJavadocJar` tasks
 tasks.named("dokkaJavadocCollector").configure {
     subprojects.flatMap { it.tasks }
-        .filter { it.project.name != "sports-game-odds-java" && it.name == "dokkaJavadocJar" }
+        .filter { it.project.name != "sports-odds-api" && it.name == "dokkaJavadocJar" }
         .forEach { mustRunAfter(it) }
 }
