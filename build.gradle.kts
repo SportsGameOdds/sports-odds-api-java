@@ -8,7 +8,7 @@ repositories {
 
 allprojects {
     group = "com.sportsgameodds.api"
-    version = "0.0.1" // x-release-please-version
+    version = "1.0.0" // x-release-please-version
 }
 
 subprojects {
