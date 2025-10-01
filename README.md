@@ -4,8 +4,8 @@ Get live betting odds, spreads, and totals for NFL, NBA, MLB, and 50 additional 
 Production-ready Java SDK with 99.9% uptime and sub-minute updates during live games.
 Perfect for developers building sportsbook platforms, odds comparison tools, positive EV models, and anything else that requires fast, accurate sports data.
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.sportsgameodds/sports-odds-api)](https://central.sonatype.com/artifact/com.sportsgameodds/sports-odds-api)
-[![javadoc](https://javadoc.io/badge2/com.sportsgameodds/sports-odds-api/javadoc.svg)](https://javadoc.io/doc/com.sportsgameodds/sports-odds-api)
+[![Maven Central](https://img.shields.io/maven-central/v/com.sportsgameodds.api/sports-odds-api)](https://central.sonatype.com/artifact/com.sportsgameodds.api/sports-odds-api/1.0.0)
+[![javadoc](https://javadoc.io/badge2/com.sportsgameodds.api/sports-odds-api/1.0.0/javadoc.svg)](https://javadoc.io/doc/com.sportsgameodds.api/sports-odds-api/1.0.0)
 
 This library provides convenient access to the Sports Game Odds REST API from applications written in Java.
 
@@ -29,16 +29,16 @@ The REST API documentation can be found on [sportsgameodds.com](https://sportsga
 ### Gradle
 
 ```kotlin
-implementation("com.sportsgameodds:sports-odds-api:0.0.1")
+implementation("com.sportsgameodds.api:sports-odds-api:1.0.0")
 ```
 
 ### Maven
 
 ```xml
 <dependency>
-  <groupId>com.sportsgameodds</groupId>
+  <groupId>com.sportsgameodds.api</groupId>
   <artifactId>sports-odds-api</artifactId>
-  <version>0.0.1</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 
@@ -137,3 +137,6 @@ public class StreamExample {
 
 This library requires Java 8 or later.
 
+We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
+
+We are keen for your feedback; please open an [issue](https://www.github.com/SportsGameOdds/sports-odds-api-java/issues) with questions, bugs, or suggestions.
