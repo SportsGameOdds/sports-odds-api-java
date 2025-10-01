@@ -17,6 +17,7 @@ import com.sportsgameodds.api.core.prepare
 import com.sportsgameodds.api.models.DataEnvelope
 import com.sportsgameodds.api.models.players.Player
 import com.sportsgameodds.api.models.players.PlayerGetPage
+import com.sportsgameodds.api.models.players.PlayerGetPageResponse
 import com.sportsgameodds.api.models.players.PlayerGetParams
 import java.util.function.Consumer
 

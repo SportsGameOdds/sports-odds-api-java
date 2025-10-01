@@ -17,6 +17,7 @@ import com.sportsgameodds.api.core.prepareAsync
 import com.sportsgameodds.api.models.DataEnvelope
 import com.sportsgameodds.api.models.events.Event
 import com.sportsgameodds.api.models.events.EventGetPageAsync
+import com.sportsgameodds.api.models.events.EventGetPageResponse
 import com.sportsgameodds.api.models.events.EventGetParams
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
