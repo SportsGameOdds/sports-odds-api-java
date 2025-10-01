@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.sportsgameodds.api/sports-game-odds-java)](https://central.sonatype.com/artifact/com.sportsgameodds.api/sports-game-odds-java/1.0.0)
-[![javadoc](https://javadoc.io/badge2/com.sportsgameodds.api/sports-game-odds-java/1.0.0/javadoc.svg)](https://javadoc.io/doc/com.sportsgameodds.api/sports-game-odds-java/1.0.0)
+[![Maven Central](https://img.shields.io/maven-central/v/com.sportsgameodds.api/sports-odds-api)](https://central.sonatype.com/artifact/com.sportsgameodds.api/sports-odds-api/1.0.0)
+[![javadoc](https://javadoc.io/badge2/com.sportsgameodds.api/sports-odds-api/1.0.0/javadoc.svg)](https://javadoc.io/doc/com.sportsgameodds.api/sports-odds-api/1.0.0)
 
 <!-- x-release-please-end -->
 
@@ -13,7 +13,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [sportsgameodds.com](https://sportsgameodds.com/docs/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.sportsgameodds.api/sports-game-odds-java/1.0.0).
+The REST API documentation can be found on [sportsgameodds.com](https://sportsgameodds.com/docs/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.sportsgameodds.api/sports-odds-api/1.0.0).
 
 <!-- x-release-please-end -->
 
@@ -24,7 +24,7 @@ The REST API documentation can be found on [sportsgameodds.com](https://sportsga
 ### Gradle
 
 ```kotlin
-implementation("com.sportsgameodds.api:sports-game-odds-java:1.0.0")
+implementation("com.sportsgameodds.api:sports-odds-api:1.0.0")
 ```
 
 ### Maven
@@ -32,7 +32,7 @@ implementation("com.sportsgameodds.api:sports-game-odds-java:1.0.0")
 ```xml
 <dependency>
   <groupId>com.sportsgameodds.api</groupId>
-  <artifactId>sports-game-odds-java</artifactId>
+  <artifactId>sports-odds-api</artifactId>
   <version>1.0.0</version>
 </dependency>
 ```
@@ -205,26 +205,26 @@ EventGetPage parsedPage = page.parse();
 
 The SDK throws custom unchecked exception types:
 
-- [`SportsGameOddsServiceException`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/errors/SportsGameOddsServiceException.kt): Base class for HTTP errors. See this table for which exception subclass is thrown for each HTTP status code:
+- [`SportsGameOddsServiceException`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/errors/SportsGameOddsServiceException.kt): Base class for HTTP errors. See this table for which exception subclass is thrown for each HTTP status code:
 
-  | Status | Exception                                                                                                                                    |
-  | ------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
-  | 400    | [`BadRequestException`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/errors/BadRequestException.kt)                     |
-  | 401    | [`UnauthorizedException`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/errors/UnauthorizedException.kt)                 |
-  | 403    | [`PermissionDeniedException`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/errors/PermissionDeniedException.kt)         |
-  | 404    | [`NotFoundException`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/errors/NotFoundException.kt)                         |
-  | 422    | [`UnprocessableEntityException`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/errors/UnprocessableEntityException.kt)   |
-  | 429    | [`RateLimitException`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/errors/RateLimitException.kt)                       |
-  | 5xx    | [`InternalServerException`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/errors/InternalServerException.kt)             |
-  | others | [`UnexpectedStatusCodeException`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/errors/UnexpectedStatusCodeException.kt) |
+  | Status | Exception                                                                                                                              |
+  | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+  | 400    | [`BadRequestException`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/errors/BadRequestException.kt)                     |
+  | 401    | [`UnauthorizedException`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/errors/UnauthorizedException.kt)                 |
+  | 403    | [`PermissionDeniedException`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/errors/PermissionDeniedException.kt)         |
+  | 404    | [`NotFoundException`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/errors/NotFoundException.kt)                         |
+  | 422    | [`UnprocessableEntityException`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/errors/UnprocessableEntityException.kt)   |
+  | 429    | [`RateLimitException`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/errors/RateLimitException.kt)                       |
+  | 5xx    | [`InternalServerException`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/errors/InternalServerException.kt)             |
+  | others | [`UnexpectedStatusCodeException`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/errors/UnexpectedStatusCodeException.kt) |
 
-- [`SportsGameOddsIoException`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/errors/SportsGameOddsIoException.kt): I/O networking errors.
+- [`SportsGameOddsIoException`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/errors/SportsGameOddsIoException.kt): I/O networking errors.
 
-- [`SportsGameOddsRetryableException`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/errors/SportsGameOddsRetryableException.kt): Generic error indicating a failure that could be retried by the client.
+- [`SportsGameOddsRetryableException`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/errors/SportsGameOddsRetryableException.kt): Generic error indicating a failure that could be retried by the client.
 
-- [`SportsGameOddsInvalidDataException`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/errors/SportsGameOddsInvalidDataException.kt): Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
+- [`SportsGameOddsInvalidDataException`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/errors/SportsGameOddsInvalidDataException.kt): Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
 
-- [`SportsGameOddsException`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/errors/SportsGameOddsException.kt): Base class for all exceptions. Most errors will result in one of the previously mentioned ones, but completely generic errors may be thrown using the base class.
+- [`SportsGameOddsException`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/errors/SportsGameOddsException.kt): Base class for all exceptions. Most errors will result in one of the previously mentioned ones, but completely generic errors may be thrown using the base class.
 
 ## Pagination
 
@@ -254,7 +254,7 @@ page.autoPager()
     .forEach(event -> System.out.println(event));
 ```
 
-When using the asynchronous client, the method returns an [`AsyncStreamResponse`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/core/http/AsyncStreamResponse.kt):
+When using the asynchronous client, the method returns an [`AsyncStreamResponse`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/core/http/AsyncStreamResponse.kt):
 
 ```java
 import com.sportsgameodds.api.core.http.AsyncStreamResponse;
@@ -344,7 +344,7 @@ $ export SPORTS_GAME_ODDS_LOG=debug
 
 ## ProGuard and R8
 
-Although the SDK uses reflection, it is still usable with [ProGuard](https://github.com/Guardsquare/proguard) and [R8](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization) because `sports-game-odds-java-core` is published with a [configuration file](sports-game-odds-java-core/src/main/resources/META-INF/proguard/sports-game-odds-java-core.pro) containing [keep rules](https://www.guardsquare.com/manual/configuration/usage).
+Although the SDK uses reflection, it is still usable with [ProGuard](https://github.com/Guardsquare/proguard) and [R8](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization) because `sports-odds-api-core` is published with a [configuration file](sports-odds-api-core/src/main/resources/META-INF/proguard/sports-odds-api-core.pro) containing [keep rules](https://www.guardsquare.com/manual/configuration/usage).
 
 ProGuard and R8 should automatically detect and use the published rules, but you can also manually copy the keep rules if necessary.
 
@@ -354,7 +354,7 @@ The SDK depends on [Jackson](https://github.com/FasterXML/jackson) for JSON seri
 
 The SDK throws an exception if it detects an incompatible Jackson version at runtime (e.g. if the default version was overridden in your Maven or Gradle config).
 
-If the SDK threw an exception, but you're _certain_ the version is compatible, then disable the version check using the `checkJacksonVersionCompatibility` on [`SportsGameOddsOkHttpClient`](sports-game-odds-java-client-okhttp/src/main/kotlin/com/sportsgameodds/api/client/okhttp/SportsGameOddsOkHttpClient.kt) or [`SportsGameOddsOkHttpClientAsync`](sports-game-odds-java-client-okhttp/src/main/kotlin/com/sportsgameodds/api/client/okhttp/SportsGameOddsOkHttpClientAsync.kt).
+If the SDK threw an exception, but you're _certain_ the version is compatible, then disable the version check using the `checkJacksonVersionCompatibility` on [`SportsGameOddsOkHttpClient`](sports-odds-api-client-okhttp/src/main/kotlin/com/sportsgameodds/api/client/okhttp/SportsGameOddsOkHttpClient.kt) or [`SportsGameOddsOkHttpClientAsync`](sports-odds-api-client-okhttp/src/main/kotlin/com/sportsgameodds/api/client/okhttp/SportsGameOddsOkHttpClientAsync.kt).
 
 > [!CAUTION]
 > We make no guarantee that the SDK works correctly when the Jackson version check is disabled.
@@ -457,15 +457,15 @@ SportsGameOddsClient client = SportsGameOddsOkHttpClient.builder()
 
 The SDK consists of three artifacts:
 
-- `sports-game-odds-java-core`
+- `sports-odds-api-core`
   - Contains core SDK logic
   - Does not depend on [OkHttp](https://square.github.io/okhttp)
-  - Exposes [`SportsGameOddsClient`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/client/SportsGameOddsClient.kt), [`SportsGameOddsClientAsync`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/client/SportsGameOddsClientAsync.kt), [`SportsGameOddsClientImpl`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/client/SportsGameOddsClientImpl.kt), and [`SportsGameOddsClientAsyncImpl`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/client/SportsGameOddsClientAsyncImpl.kt), all of which can work with any HTTP client
-- `sports-game-odds-java-client-okhttp`
+  - Exposes [`SportsGameOddsClient`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/client/SportsGameOddsClient.kt), [`SportsGameOddsClientAsync`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/client/SportsGameOddsClientAsync.kt), [`SportsGameOddsClientImpl`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/client/SportsGameOddsClientImpl.kt), and [`SportsGameOddsClientAsyncImpl`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/client/SportsGameOddsClientAsyncImpl.kt), all of which can work with any HTTP client
+- `sports-odds-api-client-okhttp`
   - Depends on [OkHttp](https://square.github.io/okhttp)
-  - Exposes [`SportsGameOddsOkHttpClient`](sports-game-odds-java-client-okhttp/src/main/kotlin/com/sportsgameodds/api/client/okhttp/SportsGameOddsOkHttpClient.kt) and [`SportsGameOddsOkHttpClientAsync`](sports-game-odds-java-client-okhttp/src/main/kotlin/com/sportsgameodds/api/client/okhttp/SportsGameOddsOkHttpClientAsync.kt), which provide a way to construct [`SportsGameOddsClientImpl`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/client/SportsGameOddsClientImpl.kt) and [`SportsGameOddsClientAsyncImpl`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/client/SportsGameOddsClientAsyncImpl.kt), respectively, using OkHttp
-- `sports-game-odds-java`
-  - Depends on and exposes the APIs of both `sports-game-odds-java-core` and `sports-game-odds-java-client-okhttp`
+  - Exposes [`SportsGameOddsOkHttpClient`](sports-odds-api-client-okhttp/src/main/kotlin/com/sportsgameodds/api/client/okhttp/SportsGameOddsOkHttpClient.kt) and [`SportsGameOddsOkHttpClientAsync`](sports-odds-api-client-okhttp/src/main/kotlin/com/sportsgameodds/api/client/okhttp/SportsGameOddsOkHttpClientAsync.kt), which provide a way to construct [`SportsGameOddsClientImpl`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/client/SportsGameOddsClientImpl.kt) and [`SportsGameOddsClientAsyncImpl`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/client/SportsGameOddsClientAsyncImpl.kt), respectively, using OkHttp
+- `sports-odds-api`
+  - Depends on and exposes the APIs of both `sports-odds-api-core` and `sports-odds-api-client-okhttp`
   - Does not have its own logic
 
 This structure allows replacing the SDK's default HTTP client without pulling in unnecessary dependencies.
@@ -477,17 +477,17 @@ This structure allows replacing the SDK's default HTTP client without pulling in
 
 To use a customized `OkHttpClient`:
 
-1. Replace your [`sports-game-odds-java` dependency](#installation) with `sports-game-odds-java-core`
-2. Copy `sports-game-odds-java-client-okhttp`'s [`OkHttpClient`](sports-game-odds-java-client-okhttp/src/main/kotlin/com/sportsgameodds/api/client/okhttp/OkHttpClient.kt) class into your code and customize it
-3. Construct [`SportsGameOddsClientImpl`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/client/SportsGameOddsClientImpl.kt) or [`SportsGameOddsClientAsyncImpl`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/client/SportsGameOddsClientAsyncImpl.kt), similarly to [`SportsGameOddsOkHttpClient`](sports-game-odds-java-client-okhttp/src/main/kotlin/com/sportsgameodds/api/client/okhttp/SportsGameOddsOkHttpClient.kt) or [`SportsGameOddsOkHttpClientAsync`](sports-game-odds-java-client-okhttp/src/main/kotlin/com/sportsgameodds/api/client/okhttp/SportsGameOddsOkHttpClientAsync.kt), using your customized client
+1. Replace your [`sports-odds-api` dependency](#installation) with `sports-odds-api-core`
+2. Copy `sports-odds-api-client-okhttp`'s [`OkHttpClient`](sports-odds-api-client-okhttp/src/main/kotlin/com/sportsgameodds/api/client/okhttp/OkHttpClient.kt) class into your code and customize it
+3. Construct [`SportsGameOddsClientImpl`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/client/SportsGameOddsClientImpl.kt) or [`SportsGameOddsClientAsyncImpl`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/client/SportsGameOddsClientAsyncImpl.kt), similarly to [`SportsGameOddsOkHttpClient`](sports-odds-api-client-okhttp/src/main/kotlin/com/sportsgameodds/api/client/okhttp/SportsGameOddsOkHttpClient.kt) or [`SportsGameOddsOkHttpClientAsync`](sports-odds-api-client-okhttp/src/main/kotlin/com/sportsgameodds/api/client/okhttp/SportsGameOddsOkHttpClientAsync.kt), using your customized client
 
 ### Completely custom HTTP client
 
 To use a completely custom HTTP client:
 
-1. Replace your [`sports-game-odds-java` dependency](#installation) with `sports-game-odds-java-core`
-2. Write a class that implements the [`HttpClient`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/core/http/HttpClient.kt) interface
-3. Construct [`SportsGameOddsClientImpl`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/client/SportsGameOddsClientImpl.kt) or [`SportsGameOddsClientAsyncImpl`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/client/SportsGameOddsClientAsyncImpl.kt), similarly to [`SportsGameOddsOkHttpClient`](sports-game-odds-java-client-okhttp/src/main/kotlin/com/sportsgameodds/api/client/okhttp/SportsGameOddsOkHttpClient.kt) or [`SportsGameOddsOkHttpClientAsync`](sports-game-odds-java-client-okhttp/src/main/kotlin/com/sportsgameodds/api/client/okhttp/SportsGameOddsOkHttpClientAsync.kt), using your new client class
+1. Replace your [`sports-odds-api` dependency](#installation) with `sports-odds-api-core`
+2. Write a class that implements the [`HttpClient`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/core/http/HttpClient.kt) interface
+3. Construct [`SportsGameOddsClientImpl`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/client/SportsGameOddsClientImpl.kt) or [`SportsGameOddsClientAsyncImpl`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/client/SportsGameOddsClientAsyncImpl.kt), similarly to [`SportsGameOddsOkHttpClient`](sports-odds-api-client-okhttp/src/main/kotlin/com/sportsgameodds/api/client/okhttp/SportsGameOddsOkHttpClient.kt) or [`SportsGameOddsOkHttpClientAsync`](sports-odds-api-client-okhttp/src/main/kotlin/com/sportsgameodds/api/client/okhttp/SportsGameOddsOkHttpClientAsync.kt), using your new client class
 
 ## Undocumented API functionality
 
@@ -510,7 +510,7 @@ EventGetParams params = EventGetParams.builder()
 
 These can be accessed on the built object later using the `_additionalHeaders()`, `_additionalQueryParams()`, and `_additionalBodyProperties()` methods.
 
-To set a documented parameter or property to an undocumented or not yet supported _value_, pass a [`JsonValue`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/core/Values.kt) object to its setter:
+To set a documented parameter or property to an undocumented or not yet supported _value_, pass a [`JsonValue`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/core/Values.kt) object to its setter:
 
 ```java
 import com.sportsgameodds.api.models.events.EventGetParams;
@@ -518,7 +518,7 @@ import com.sportsgameodds.api.models.events.EventGetParams;
 EventGetParams params = EventGetParams.builder().build();
 ```
 
-The most straightforward way to create a [`JsonValue`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/core/Values.kt) is using its `from(...)` method:
+The most straightforward way to create a [`JsonValue`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/core/Values.kt) is using its `from(...)` method:
 
 ```java
 import com.sportsgameodds.api.core.JsonValue;
@@ -615,7 +615,7 @@ if (field.isMissing()) {
 
 In rare cases, the API may return a response that doesn't match the expected type. For example, the SDK may expect a property to contain a `String`, but the API could return something else.
 
-By default, the SDK will not throw an exception in this case. It will throw [`SportsGameOddsInvalidDataException`](sports-game-odds-java-core/src/main/kotlin/com/sportsgameodds/api/errors/SportsGameOddsInvalidDataException.kt) only if you directly access the property.
+By default, the SDK will not throw an exception in this case. It will throw [`SportsGameOddsInvalidDataException`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/errors/SportsGameOddsInvalidDataException.kt) only if you directly access the property.
 
 If you would prefer to check that the response is completely well-typed upfront, then either call `validate()`:
 

@@ -1,11 +1,11 @@
-rootProject.name = "sports-game-odds-java-root"
+rootProject.name = "sports-odds-api-root"
 
 val projectNames = rootDir.listFiles()
     ?.asSequence()
     .orEmpty()
     .filter { file ->
         file.isDirectory &&
-        file.name.startsWith("sports-game-odds-java") &&
+        file.name.startsWith("sports-odds-api") &&
         file.listFiles()?.asSequence().orEmpty().any { it.name == "build.gradle.kts" }
     }
     .map { it.name }

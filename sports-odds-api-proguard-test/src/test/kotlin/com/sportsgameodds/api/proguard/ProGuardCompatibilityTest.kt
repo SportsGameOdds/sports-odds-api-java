@@ -39,9 +39,7 @@ internal class ProGuardCompatibilityTest {
     @Test
     fun proguardRules() {
         val rulesFile =
-            javaClass.classLoader.getResourceAsStream(
-                "META-INF/proguard/sports-game-odds-java-core.pro"
-            )
+            javaClass.classLoader.getResourceAsStream("META-INF/proguard/sports-odds-api-core.pro")
 
         assertThat(rulesFile).isNotNull()
     }

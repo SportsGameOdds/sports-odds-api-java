@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    api(project(":sports-game-odds-java-client-okhttp"))
+    api(project(":sports-odds-api-client-okhttp"))
 }
 
 // Redefine `dokkaJavadoc` to:

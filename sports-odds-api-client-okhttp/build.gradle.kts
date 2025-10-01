@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    api(project(":sports-game-odds-java-core"))
+    api(project(":sports-odds-api-core"))
 
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
