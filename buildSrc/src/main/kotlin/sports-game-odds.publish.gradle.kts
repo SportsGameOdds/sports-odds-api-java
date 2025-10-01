@@ -1,61 +1,59 @@
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinJvm
+import com.vanniktech.maven.publish.MavenPublishBaseExtension
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
-    `maven-publish`
-    signing
+    id("com.vanniktech.maven.publish")
 }
 
-configure<PublishingExtension> {
-    publications {
-        register<MavenPublication>("maven") {
-            from(components["java"])
+repositories {
+    gradlePluginPortal()
+    mavenCentral()
+}
 
-            pom {
-                name.set("Sports Game Odds API")
-                description.set("Here you'll find the REST API reference documentation for the SportsGameOdds\nAPI.")
-                url.set("https://sportsgameodds.com/docs/")
+extra["signingInMemoryKey"] = System.getenv("GPG_SIGNING_KEY")
+extra["signingInMemoryKeyId"] = System.getenv("GPG_SIGNING_KEY_ID")
+extra["signingInMemoryKeyPassword"] = System.getenv("GPG_SIGNING_PASSWORD")
 
-                licenses {
-                    license {
-                        name.set("Apache-2.0")
-                    }
-                }
+configure<MavenPublishBaseExtension> {
+    signAllPublications()
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
-                developers {
-                    developer {
-                        name.set("Sports Game Odds")
-                        email.set("api@sportsgameodds.com")
-                    }
-                }
+    coordinates(project.group.toString(), project.name, project.version.toString())
+    configure(
+        KotlinJvm(
+            javadocJar = JavadocJar.Dokka("dokkaJavadoc"),
+            sourcesJar = true,
+        )
+    )
 
-                scm {
-                    connection.set("scm:git:git://github.com/stainless-sdks/sports-odds-api-java.git")
-                    developerConnection.set("scm:git:git://github.com/stainless-sdks/sports-odds-api-java.git")
-                    url.set("https://github.com/stainless-sdks/sports-odds-api-java")
-                }
+    pom {
+        name.set("Sports Game Odds API")
+        description.set("Here you'll find the REST API reference documentation for the SportsGameOdds\nAPI.")
+        url.set("https://sportsgameodds.com/docs/")
 
-                versionMapping {
-                    allVariants {
-                        fromResolutionResult()
-                    }
-                }
+        licenses {
+            license {
+                name.set("Apache-2.0")
             }
+        }
+
+        developers {
+            developer {
+                name.set("Sports Game Odds")
+                email.set("api@sportsgameodds.com")
+            }
+        }
+
+        scm {
+            connection.set("scm:git:git://github.com/SportsGameOdds/sports-odds-api-java.git")
+            developerConnection.set("scm:git:git://github.com/SportsGameOdds/sports-odds-api-java.git")
+            url.set("https://github.com/SportsGameOdds/sports-odds-api-java")
         }
     }
 }
 
-signing {
-    val signingKeyId = System.getenv("GPG_SIGNING_KEY_ID")?.ifBlank { null }
-    val signingKey = System.getenv("GPG_SIGNING_KEY")?.ifBlank { null }
-    val signingPassword = System.getenv("GPG_SIGNING_PASSWORD")?.ifBlank { null }
-    if (signingKey != null && signingPassword != null) {
-        useInMemoryPgpKeys(
-            signingKeyId,
-            signingKey,
-            signingPassword,
-        )
-        sign(publishing.publications["maven"])
-    }
-}
-
-tasks.named("publish") {
-    dependsOn(":closeAndReleaseSonatypeStagingRepository")
+tasks.withType<Zip>().configureEach {
+    isZip64 = true
 }
