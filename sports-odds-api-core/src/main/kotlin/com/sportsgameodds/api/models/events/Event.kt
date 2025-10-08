@@ -110,8 +110,6 @@ private constructor(
     fun players(): Optional<Players> = players.getOptional("players")
 
     /**
-     * Nested results in the format `<periodID>.<statEntityID>.<statID> → number`.
-     *
      * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type (e.g. if
      *   the server responded with an unexpected value).
      */
@@ -348,7 +346,6 @@ private constructor(
          */
         fun players(players: JsonField<Players>) = apply { this.players = players }
 
-        /** Nested results in the format `<periodID>.<statEntityID>.<statID> → number`. */
         fun results(results: Results) = results(JsonField.of(results))
 
         /**
@@ -1001,7 +998,6 @@ private constructor(
         override fun toString() = "Players{additionalProperties=$additionalProperties}"
     }
 
-    /** Nested results in the format `<periodID>.<statEntityID>.<statID> → number`. */
     class Results
     @JsonCreator
     private constructor(

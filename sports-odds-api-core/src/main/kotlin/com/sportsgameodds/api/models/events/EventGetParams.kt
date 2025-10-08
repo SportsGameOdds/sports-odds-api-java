@@ -19,6 +19,7 @@ private constructor(
     private val cursor: String?,
     private val ended: Boolean?,
     private val eventId: String?,
+    private val eventIds: String?,
     private val finalized: Boolean?,
     private val includeAltLines: Boolean?,
     private val includeOpposingOdds: Boolean?,
@@ -59,8 +60,11 @@ private constructor(
      */
     fun ended(): Optional<Boolean> = Optional.ofNullable(ended)
 
-    /** An eventID or comma-separated list of eventIDs to get Event data for */
+    /** An eventID to get Event data for */
     fun eventId(): Optional<String> = Optional.ofNullable(eventId)
+
+    /** A comma separated list of eventIDs to get Event data for */
+    fun eventIds(): Optional<String> = Optional.ofNullable(eventIds)
 
     /**
      * Only include finalized Events (true), exclude unfinalized Events (false) or all Events (omit)
@@ -147,6 +151,7 @@ private constructor(
         private var cursor: String? = null
         private var ended: Boolean? = null
         private var eventId: String? = null
+        private var eventIds: String? = null
         private var finalized: Boolean? = null
         private var includeAltLines: Boolean? = null
         private var includeOpposingOdds: Boolean? = null
@@ -173,6 +178,7 @@ private constructor(
             cursor = eventGetParams.cursor
             ended = eventGetParams.ended
             eventId = eventGetParams.eventId
+            eventIds = eventGetParams.eventIds
             finalized = eventGetParams.finalized
             includeAltLines = eventGetParams.includeAltLines
             includeOpposingOdds = eventGetParams.includeOpposingOdds
@@ -240,11 +246,17 @@ private constructor(
         /** Alias for calling [Builder.ended] with `ended.orElse(null)`. */
         fun ended(ended: Optional<Boolean>) = ended(ended.getOrNull())
 
-        /** An eventID or comma-separated list of eventIDs to get Event data for */
+        /** An eventID to get Event data for */
         fun eventId(eventId: String?) = apply { this.eventId = eventId }
 
         /** Alias for calling [Builder.eventId] with `eventId.orElse(null)`. */
         fun eventId(eventId: Optional<String>) = eventId(eventId.getOrNull())
+
+        /** A comma separated list of eventIDs to get Event data for */
+        fun eventIds(eventIds: String?) = apply { this.eventIds = eventIds }
+
+        /** Alias for calling [Builder.eventIds] with `eventIds.orElse(null)`. */
+        fun eventIds(eventIds: Optional<String>) = eventIds(eventIds.getOrNull())
 
         /**
          * Only include finalized Events (true), exclude unfinalized Events (false) or all Events
@@ -536,6 +548,7 @@ private constructor(
                 cursor,
                 ended,
                 eventId,
+                eventIds,
                 finalized,
                 includeAltLines,
                 includeOpposingOdds,
@@ -567,6 +580,7 @@ private constructor(
                 cursor?.let { put("cursor", it) }
                 ended?.let { put("ended", it.toString()) }
                 eventId?.let { put("eventID", it) }
+                eventIds?.let { put("eventIDs", it) }
                 finalized?.let { put("finalized", it.toString()) }
                 includeAltLines?.let { put("includeAltLines", it.toString()) }
                 includeOpposingOdds?.let { put("includeOpposingOdds", it.toString()) }
@@ -602,6 +616,7 @@ private constructor(
             cursor == other.cursor &&
             ended == other.ended &&
             eventId == other.eventId &&
+            eventIds == other.eventIds &&
             finalized == other.finalized &&
             includeAltLines == other.includeAltLines &&
             includeOpposingOdds == other.includeOpposingOdds &&
@@ -629,6 +644,7 @@ private constructor(
             cursor,
             ended,
             eventId,
+            eventIds,
             finalized,
             includeAltLines,
             includeOpposingOdds,
@@ -650,5 +666,5 @@ private constructor(
         )
 
     override fun toString() =
-        "EventGetParams{bookmakerId=$bookmakerId, cancelled=$cancelled, cursor=$cursor, ended=$ended, eventId=$eventId, finalized=$finalized, includeAltLines=$includeAltLines, includeOpposingOdds=$includeOpposingOdds, leagueId=$leagueId, limit=$limit, live=$live, oddId=$oddId, oddsAvailable=$oddsAvailable, oddsPresent=$oddsPresent, playerId=$playerId, sportId=$sportId, started=$started, startsAfter=$startsAfter, startsBefore=$startsBefore, teamId=$teamId, type=$type, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "EventGetParams{bookmakerId=$bookmakerId, cancelled=$cancelled, cursor=$cursor, ended=$ended, eventId=$eventId, eventIds=$eventIds, finalized=$finalized, includeAltLines=$includeAltLines, includeOpposingOdds=$includeOpposingOdds, leagueId=$leagueId, limit=$limit, live=$live, oddId=$oddId, oddsAvailable=$oddsAvailable, oddsPresent=$oddsPresent, playerId=$playerId, sportId=$sportId, started=$started, startsAfter=$startsAfter, startsBefore=$startsBefore, teamId=$teamId, type=$type, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

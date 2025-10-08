@@ -136,13 +136,8 @@ internal class ProGuardCompatibilityTest {
                 .results(
                     Event.Results.builder()
                         .putAdditionalProperty(
-                            "game",
-                            JsonValue.from(
-                                mapOf(
-                                    "home" to mapOf("points" to 12),
-                                    "away" to mapOf("points" to 10),
-                                )
-                            ),
+                            "foo",
+                            JsonValue.from(mapOf("foo" to mapOf("foo" to 0))),
                         )
                         .build()
                 )
