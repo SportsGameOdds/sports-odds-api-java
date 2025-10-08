@@ -87,13 +87,8 @@ internal class EventTest {
                 .results(
                     Event.Results.builder()
                         .putAdditionalProperty(
-                            "game",
-                            JsonValue.from(
-                                mapOf(
-                                    "home" to mapOf("points" to 12),
-                                    "away" to mapOf("points" to 10),
-                                )
-                            ),
+                            "foo",
+                            JsonValue.from(mapOf("foo" to mapOf("foo" to 0))),
                         )
                         .build()
                 )
@@ -252,12 +247,7 @@ internal class EventTest {
         assertThat(event.results())
             .contains(
                 Event.Results.builder()
-                    .putAdditionalProperty(
-                        "game",
-                        JsonValue.from(
-                            mapOf("home" to mapOf("points" to 12), "away" to mapOf("points" to 10))
-                        ),
-                    )
+                    .putAdditionalProperty("foo", JsonValue.from(mapOf("foo" to mapOf("foo" to 0))))
                     .build()
             )
         assertThat(event.sportId()).contains("sportID")
@@ -419,13 +409,8 @@ internal class EventTest {
                 .results(
                     Event.Results.builder()
                         .putAdditionalProperty(
-                            "game",
-                            JsonValue.from(
-                                mapOf(
-                                    "home" to mapOf("points" to 12),
-                                    "away" to mapOf("points" to 10),
-                                )
-                            ),
+                            "foo",
+                            JsonValue.from(mapOf("foo" to mapOf("foo" to 0))),
                         )
                         .build()
                 )
