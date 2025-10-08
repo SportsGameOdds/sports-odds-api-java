@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.0 (2025-10-08)
+
+Full Changelog: [v1.1.0...v1.2.0](https://github.com/SportsGameOdds/sports-odds-api-java/compare/v1.1.0...v1.2.0)
+
+### Features
+
+* test ([94ec92d](https://github.com/SportsGameOdds/sports-odds-api-java/commit/94ec92d6905329111a979c79c106a59e5bac7a45))
+
 ## 1.1.0 (2025-10-01)
 
 Full Changelog: [v1.0.0...v1.1.0](https://github.com/SportsGameOdds/sports-odds-api-java/compare/v1.0.0...v1.1.0)
