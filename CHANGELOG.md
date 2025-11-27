@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.1 (2025-11-27)
+
+Full Changelog: [v1.2.0...v1.2.1](https://github.com/SportsGameOdds/sports-odds-api-java/compare/v1.2.0...v1.2.1)
+
+### Bug Fixes
+
+* **client:** cancel okhttp call when future cancelled ([fba45f8](https://github.com/SportsGameOdds/sports-odds-api-java/commit/fba45f80b783e65578004fc144c7dd8008f0ff56))
+* **client:** multi-value header serialization ([da8def3](https://github.com/SportsGameOdds/sports-odds-api-java/commit/da8def333db5ca9b013336209d5df01926b9223c))
+
 ## 1.2.0 (2025-10-08)
 
 Full Changelog: [v1.1.0...v1.2.0](https://github.com/SportsGameOdds/sports-odds-api-java/compare/v1.1.0...v1.2.0)
