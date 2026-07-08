@@ -8,7 +8,8 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":sports-odds-api"))
+    implementation(project(":sports-odds-api-core"))
+    implementation(project(":sports-odds-api-client-okhttp"))
 }
 
 tasks.withType<JavaCompile>().configureEach {
