@@ -75,6 +75,39 @@ EventGetPage page = client.events().get();
 System.out.println(page.items().get(0).getActivity());
 ```
 
+## ProGuard and R8
+
+Although the SDK uses reflection, it is still usable with [ProGuard](https://github.com/Guardsquare/proguard) and [R8](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization) because `sports-odds-api-core` is published with a [configuration file](sports-odds-api-core/src/main/resources/META-INF/proguard/sports-odds-api-core.pro) containing [keep rules](https://www.guardsquare.com/manual/configuration/usage).
+
+ProGuard and R8 should automatically detect and use the published rules, but you can also manually copy the keep rules if necessary.
+
+## Jackson
+
+The SDK depends on [Jackson](https://github.com/FasterXML/jackson) for JSON serialization/deserialization. It is compatible with version 2.13.4 or higher, but depends on version 2.18.2 by default.
+
+The SDK throws an exception if it detects an incompatible Jackson version at runtime (e.g. if the default version was overridden in your Maven or Gradle config).
+
+If the SDK threw an exception, but you're _certain_ the version is compatible, then disable the version check using the `checkJacksonVersionCompatibility` on [`SportsGameOddsOkHttpClient`](sports-odds-api-client-okhttp/src/main/kotlin/com/sportsgameodds/api/client/okhttp/SportsGameOddsOkHttpClient.kt) or [`SportsGameOddsOkHttpClientAsync`](sports-odds-api-client-okhttp/src/main/kotlin/com/sportsgameodds/api/client/okhttp/SportsGameOddsOkHttpClientAsync.kt).
+
+> [!CAUTION]
+> We make no guarantee that the SDK works correctly when the Jackson version check is disabled.
+
+Also note that there are bugs in older Jackson versions that can affect the SDK. We don't work around all Jackson bugs ([example](https://github.com/FasterXML/jackson-databind/issues/3240)) and expect users to upgrade Jackson for those instead.
+
+## Network options
+
+### Retries
+
+The SDK automatically retries 2 times by default, with a short exponential backoff between requests.
+
+Only the following error types are retried:
+
+- Connection errors (for example, due to a network connectivity problem)
+- 408 Request Timeout
+- 409 Conflict
+- 429 Rate Limit
+- 5xx Internal
+
 # Real-Time Event Streaming API
 
 This API endpoint is only available to **AllStar** and **custom plan** subscribers. It is not included with basic subscription tiers. [Contact support](mailto:api@sportsgameodds.com) to get access.
