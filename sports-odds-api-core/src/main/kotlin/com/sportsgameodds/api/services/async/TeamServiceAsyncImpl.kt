@@ -21,6 +21,7 @@ import com.sportsgameodds.api.models.teams.TeamGetParams
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
+/** Get Team-related data */
 class TeamServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     TeamServiceAsync {
 

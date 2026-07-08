@@ -49,20 +49,28 @@ interface SportsGameOddsClientAsync {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): SportsGameOddsClientAsync
 
+    /** Get info about Events (includes odds, results, teams, and other metadata) */
     fun events(): EventServiceAsync
 
+    /** Get Team-related data */
     fun teams(): TeamServiceAsync
 
+    /** Get Player-related data */
     fun players(): PlayerServiceAsync
 
+    /** Get League-related data */
     fun leagues(): LeagueServiceAsync
 
+    /** Get Sport-related data */
     fun sports(): SportServiceAsync
 
+    /** Get data on specific Stats */
     fun stats(): StatServiceAsync
 
+    /** Get data related to your Account & API key */
     fun account(): AccountServiceAsync
 
+    /** Get info about Events (includes odds, results, teams, and other metadata) */
     fun stream(): StreamServiceAsync
 
     /**
@@ -93,20 +101,28 @@ interface SportsGameOddsClientAsync {
             modifier: Consumer<ClientOptions.Builder>
         ): SportsGameOddsClientAsync.WithRawResponse
 
+        /** Get info about Events (includes odds, results, teams, and other metadata) */
         fun events(): EventServiceAsync.WithRawResponse
 
+        /** Get Team-related data */
         fun teams(): TeamServiceAsync.WithRawResponse
 
+        /** Get Player-related data */
         fun players(): PlayerServiceAsync.WithRawResponse
 
+        /** Get League-related data */
         fun leagues(): LeagueServiceAsync.WithRawResponse
 
+        /** Get Sport-related data */
         fun sports(): SportServiceAsync.WithRawResponse
 
+        /** Get data on specific Stats */
         fun stats(): StatServiceAsync.WithRawResponse
 
+        /** Get data related to your Account & API key */
         fun account(): AccountServiceAsync.WithRawResponse
 
+        /** Get info about Events (includes odds, results, teams, and other metadata) */
         fun stream(): StreamServiceAsync.WithRawResponse
     }
 }

@@ -10,6 +10,7 @@ import com.sportsgameodds.api.models.players.PlayerGetPage
 import com.sportsgameodds.api.models.players.PlayerGetParams
 import java.util.function.Consumer
 
+/** Get Player-related data */
 interface PlayerService {
 
     /**

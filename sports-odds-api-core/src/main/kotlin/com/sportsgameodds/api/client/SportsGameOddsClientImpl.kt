@@ -64,20 +64,28 @@ class SportsGameOddsClientImpl(private val clientOptions: ClientOptions) : Sport
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): SportsGameOddsClient =
         SportsGameOddsClientImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    /** Get info about Events (includes odds, results, teams, and other metadata) */
     override fun events(): EventService = events
 
+    /** Get Team-related data */
     override fun teams(): TeamService = teams
 
+    /** Get Player-related data */
     override fun players(): PlayerService = players
 
+    /** Get League-related data */
     override fun leagues(): LeagueService = leagues
 
+    /** Get Sport-related data */
     override fun sports(): SportService = sports
 
+    /** Get data on specific Stats */
     override fun stats(): StatService = stats
 
+    /** Get data related to your Account & API key */
     override fun account(): AccountService = account
 
+    /** Get info about Events (includes odds, results, teams, and other metadata) */
     override fun stream(): StreamService = stream
 
     override fun close() = clientOptions.close()
@@ -124,20 +132,28 @@ class SportsGameOddsClientImpl(private val clientOptions: ClientOptions) : Sport
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
+        /** Get info about Events (includes odds, results, teams, and other metadata) */
         override fun events(): EventService.WithRawResponse = events
 
+        /** Get Team-related data */
         override fun teams(): TeamService.WithRawResponse = teams
 
+        /** Get Player-related data */
         override fun players(): PlayerService.WithRawResponse = players
 
+        /** Get League-related data */
         override fun leagues(): LeagueService.WithRawResponse = leagues
 
+        /** Get Sport-related data */
         override fun sports(): SportService.WithRawResponse = sports
 
+        /** Get data on specific Stats */
         override fun stats(): StatService.WithRawResponse = stats
 
+        /** Get data related to your Account & API key */
         override fun account(): AccountService.WithRawResponse = account
 
+        /** Get info about Events (includes odds, results, teams, and other metadata) */
         override fun stream(): StreamService.WithRawResponse = stream
     }
 }

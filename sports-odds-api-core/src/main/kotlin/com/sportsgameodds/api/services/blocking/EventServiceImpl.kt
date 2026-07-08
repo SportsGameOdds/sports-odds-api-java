@@ -20,6 +20,7 @@ import com.sportsgameodds.api.models.events.EventGetPage
 import com.sportsgameodds.api.models.events.EventGetParams
 import java.util.function.Consumer
 
+/** Get info about Events (includes odds, results, teams, and other metadata) */
 class EventServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     EventService {
 

@@ -20,6 +20,7 @@ import com.sportsgameodds.api.models.players.PlayerGetPage
 import com.sportsgameodds.api.models.players.PlayerGetParams
 import java.util.function.Consumer
 
+/** Get Player-related data */
 class PlayerServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     PlayerService {
 

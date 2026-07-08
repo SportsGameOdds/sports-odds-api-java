@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.sportsgameodds.api/sports-odds-api)](https://central.sonatype.com/artifact/com.sportsgameodds.api/sports-odds-api/1.2.1)
-[![javadoc](https://javadoc.io/badge2/com.sportsgameodds.api/sports-odds-api/1.2.1/javadoc.svg)](https://javadoc.io/doc/com.sportsgameodds.api/sports-odds-api/1.2.1)
+[![Maven Central](https://img.shields.io/maven-central/v/com.sportsgameodds.api/sports-odds-api)](https://central.sonatype.com/artifact/com.sportsgameodds.api/sports-odds-api/1.3.0)
+[![javadoc](https://javadoc.io/badge2/com.sportsgameodds.api/sports-odds-api/1.3.0/javadoc.svg)](https://javadoc.io/doc/com.sportsgameodds.api/sports-odds-api/1.3.0)
 
 <!-- x-release-please-end -->
 
@@ -22,7 +22,7 @@ Use the Sports Game Odds MCP Server to enable AI assistants to interact with thi
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [sportsgameodds.com](https://sportsgameodds.com/docs/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.sportsgameodds.api/sports-odds-api/1.2.1).
+The REST API documentation can be found on [sportsgameodds.com](https://sportsgameodds.com/docs/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.sportsgameodds.api/sports-odds-api/1.3.0).
 
 <!-- x-release-please-end -->
 
@@ -33,7 +33,7 @@ The REST API documentation can be found on [sportsgameodds.com](https://sportsga
 ### Gradle
 
 ```kotlin
-implementation("com.sportsgameodds.api:sports-odds-api:1.2.1")
+implementation("com.sportsgameodds.api:sports-odds-api:1.3.0")
 ```
 
 ### Maven
@@ -42,7 +42,7 @@ implementation("com.sportsgameodds.api:sports-odds-api:1.2.1")
 <dependency>
   <groupId>com.sportsgameodds.api</groupId>
   <artifactId>sports-odds-api</artifactId>
-  <version>1.2.1</version>
+  <version>1.3.0</version>
 </dependency>
 ```
 
@@ -337,8 +337,6 @@ while (true) {
 
 ## Logging
 
-The SDK uses the standard [OkHttp logging interceptor](https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor).
-
 Enable logging by setting the `SPORTS_GAME_ODDS_LOG` environment variable to `info`:
 
 ```sh
@@ -349,6 +347,19 @@ Or to `debug` for more verbose logging:
 
 ```sh
 export SPORTS_GAME_ODDS_LOG=debug
+```
+
+Or configure the client manually using the `logLevel` method:
+
+```java
+import com.sportsgameodds.api.client.SportsGameOddsClient;
+import com.sportsgameodds.api.client.okhttp.SportsGameOddsOkHttpClient;
+import com.sportsgameodds.api.core.LogLevel;
+
+SportsGameOddsClient client = SportsGameOddsOkHttpClient.builder()
+    .fromEnv()
+    .logLevel(LogLevel.INFO)
+    .build();
 ```
 
 ## ProGuard and R8
@@ -442,6 +453,40 @@ SportsGameOddsClient client = SportsGameOddsOkHttpClient.builder()
     ))
     .build();
 ```
+
+If the proxy responds with `407 Proxy Authentication Required`, supply credentials by also configuring `proxyAuthenticator`:
+
+```java
+import com.sportsgameodds.api.client.SportsGameOddsClient;
+import com.sportsgameodds.api.client.okhttp.SportsGameOddsOkHttpClient;
+import com.sportsgameodds.api.core.http.ProxyAuthenticator;
+
+SportsGameOddsClient client = SportsGameOddsOkHttpClient.builder()
+    .fromEnv()
+    .proxy(...)
+    // Or a custom implementation of `ProxyAuthenticator`.
+    .proxyAuthenticator(ProxyAuthenticator.basic("username", "password"))
+    .build();
+```
+
+### Connection pooling
+
+To customize the underlying OkHttp connection pool, configure the client using the `maxIdleConnections` and `keepAliveDuration` methods:
+
+```java
+import com.sportsgameodds.api.client.SportsGameOddsClient;
+import com.sportsgameodds.api.client.okhttp.SportsGameOddsOkHttpClient;
+import java.time.Duration;
+
+SportsGameOddsClient client = SportsGameOddsOkHttpClient.builder()
+    .fromEnv()
+    // If `maxIdleConnections` is set, then `keepAliveDuration` must be set, and vice versa.
+    .maxIdleConnections(10)
+    .keepAliveDuration(Duration.ofMinutes(2))
+    .build();
+```
+
+If both options are unset, OkHttp's default connection pool settings are used.
 
 ### HTTPS
 
@@ -628,7 +673,9 @@ In rare cases, the API may return a response that doesn't match the expected typ
 
 By default, the SDK will not throw an exception in this case. It will throw [`SportsGameOddsInvalidDataException`](sports-odds-api-core/src/main/kotlin/com/sportsgameodds/api/errors/SportsGameOddsInvalidDataException.kt) only if you directly access the property.
 
-If you would prefer to check that the response is completely well-typed upfront, then either call `validate()`:
+Validating the response is _not_ forwards compatible with new types from the API for existing fields.
+
+If you would still prefer to check that the response is completely well-typed upfront, then either call `validate()`:
 
 ```java
 import com.sportsgameodds.api.models.account.AccountUsage;

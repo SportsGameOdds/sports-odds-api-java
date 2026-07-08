@@ -18,6 +18,7 @@ import com.sportsgameodds.api.models.stream.StreamEventsParams
 import com.sportsgameodds.api.models.stream.StreamEventsResponse
 import java.util.function.Consumer
 
+/** Get info about Events (includes odds, results, teams, and other metadata) */
 class StreamServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     StreamService {
 

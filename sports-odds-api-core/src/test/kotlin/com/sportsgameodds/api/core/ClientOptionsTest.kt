@@ -17,6 +17,29 @@ internal class ClientOptionsTest {
     private val httpClient = mock<HttpClient>()
 
     @Test
+    fun putHeader_canOverwriteDefaultHeader() {
+        val clientOptions =
+            ClientOptions.builder()
+                .httpClient(httpClient)
+                .putHeader("User-Agent", "My User Agent")
+                .apiKeyHeader("My API Key Header")
+                .build()
+
+        assertThat(clientOptions.headers.values("User-Agent")).containsExactly("My User Agent")
+    }
+
+    @Test
+    fun toBuilder_apiKeyHeaderCanBeUpdated() {
+        var clientOptions =
+            ClientOptions.builder().httpClient(httpClient).apiKeyHeader("My API Key Header").build()
+
+        clientOptions = clientOptions.toBuilder().apiKeyHeader("another My API Key Header").build()
+
+        assertThat(clientOptions.headers.values("x-api-key"))
+            .containsExactly("another My API Key Header")
+    }
+
+    @Test
     fun toBuilder_whenOriginalClientOptionsGarbageCollected_doesNotCloseOriginalClient() {
         var clientOptions =
             ClientOptions.builder().httpClient(httpClient).apiKeyHeader("My API Key Header").build()

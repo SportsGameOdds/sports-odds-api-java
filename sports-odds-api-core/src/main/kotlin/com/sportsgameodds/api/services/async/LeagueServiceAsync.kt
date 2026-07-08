@@ -10,6 +10,7 @@ import com.sportsgameodds.api.models.leagues.LeagueGetParams
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
+/** Get League-related data */
 interface LeagueServiceAsync {
 
     /**

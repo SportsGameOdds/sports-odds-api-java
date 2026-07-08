@@ -10,6 +10,7 @@ import com.sportsgameodds.api.models.sports.Sport
 import com.sportsgameodds.api.models.sports.SportGetParams
 import java.util.function.Consumer
 
+/** Get Sport-related data */
 interface SportService {
 
     /**
