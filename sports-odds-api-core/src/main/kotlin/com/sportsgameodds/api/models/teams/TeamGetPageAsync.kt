@@ -5,7 +5,6 @@ package com.sportsgameodds.api.models.teams
 import com.sportsgameodds.api.core.AutoPagerAsync
 import com.sportsgameodds.api.core.PageAsync
 import com.sportsgameodds.api.core.checkRequired
-import com.sportsgameodds.api.models.DataEnvelope
 import com.sportsgameodds.api.services.async.TeamServiceAsync
 import java.util.Objects
 import java.util.Optional
@@ -19,7 +18,7 @@ private constructor(
     private val service: TeamServiceAsync,
     private val streamHandlerExecutor: Executor,
     private val params: TeamGetParams,
-    private val response: DataEnvelope<Team>,
+    private val response: TeamGetPageResponse,
 ) : PageAsync<Team> {
 
     /**
@@ -55,7 +54,7 @@ private constructor(
     fun params(): TeamGetParams = params
 
     /** The response that this page was parsed from. */
-    fun response(): DataEnvelope<Team> = response
+    fun response(): TeamGetPageResponse = response
 
     fun toBuilder() = Builder().from(this)
 
@@ -81,7 +80,7 @@ private constructor(
         private var service: TeamServiceAsync? = null
         private var streamHandlerExecutor: Executor? = null
         private var params: TeamGetParams? = null
-        private var response: DataEnvelope<Team>? = null
+        private var response: TeamGetPageResponse? = null
 
         @JvmSynthetic
         internal fun from(teamGetPageAsync: TeamGetPageAsync) = apply {
@@ -101,7 +100,7 @@ private constructor(
         fun params(params: TeamGetParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: DataEnvelope<Team>) = apply { this.response = response }
+        fun response(response: TeamGetPageResponse) = apply { this.response = response }
 
         /**
          * Returns an immutable instance of [TeamGetPageAsync].

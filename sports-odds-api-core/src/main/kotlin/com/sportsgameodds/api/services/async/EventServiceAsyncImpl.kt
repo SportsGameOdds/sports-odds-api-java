@@ -14,9 +14,8 @@ import com.sportsgameodds.api.core.http.HttpResponse.Handler
 import com.sportsgameodds.api.core.http.HttpResponseFor
 import com.sportsgameodds.api.core.http.parseable
 import com.sportsgameodds.api.core.prepareAsync
-import com.sportsgameodds.api.models.DataEnvelope
-import com.sportsgameodds.api.models.events.Event
 import com.sportsgameodds.api.models.events.EventGetPageAsync
+import com.sportsgameodds.api.models.events.EventGetPageResponse
 import com.sportsgameodds.api.models.events.EventGetParams
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
@@ -54,8 +53,8 @@ class EventServiceAsyncImpl internal constructor(private val clientOptions: Clie
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val getHandler: Handler<DataEnvelope<Event>> =
-            jsonHandler<DataEnvelope<Event>>(clientOptions.jsonMapper)
+        private val getHandler: Handler<EventGetPageResponse> =
+            jsonHandler<EventGetPageResponse>(clientOptions.jsonMapper)
 
         override fun get(
             params: EventGetParams,

@@ -5,7 +5,6 @@ package com.sportsgameodds.api.models.events
 import com.sportsgameodds.api.core.AutoPager
 import com.sportsgameodds.api.core.Page
 import com.sportsgameodds.api.core.checkRequired
-import com.sportsgameodds.api.models.DataEnvelope
 import com.sportsgameodds.api.services.blocking.EventService
 import java.util.Objects
 import java.util.Optional
@@ -16,7 +15,7 @@ class EventGetPage
 private constructor(
     private val service: EventService,
     private val params: EventGetParams,
-    private val response: DataEnvelope<Event>,
+    private val response: EventGetPageResponse,
 ) : Page<Event> {
 
     /**
@@ -52,7 +51,7 @@ private constructor(
     fun params(): EventGetParams = params
 
     /** The response that this page was parsed from. */
-    fun response(): DataEnvelope<Event> = response
+    fun response(): EventGetPageResponse = response
 
     fun toBuilder() = Builder().from(this)
 
@@ -76,7 +75,7 @@ private constructor(
 
         private var service: EventService? = null
         private var params: EventGetParams? = null
-        private var response: DataEnvelope<Event>? = null
+        private var response: EventGetPageResponse? = null
 
         @JvmSynthetic
         internal fun from(eventGetPage: EventGetPage) = apply {
@@ -91,7 +90,7 @@ private constructor(
         fun params(params: EventGetParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: DataEnvelope<Event>) = apply { this.response = response }
+        fun response(response: EventGetPageResponse) = apply { this.response = response }
 
         /**
          * Returns an immutable instance of [EventGetPage].

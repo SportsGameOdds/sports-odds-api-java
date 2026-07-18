@@ -14,9 +14,8 @@ import com.sportsgameodds.api.core.http.HttpResponse.Handler
 import com.sportsgameodds.api.core.http.HttpResponseFor
 import com.sportsgameodds.api.core.http.parseable
 import com.sportsgameodds.api.core.prepare
-import com.sportsgameodds.api.models.DataEnvelope
-import com.sportsgameodds.api.models.players.Player
 import com.sportsgameodds.api.models.players.PlayerGetPage
+import com.sportsgameodds.api.models.players.PlayerGetPageResponse
 import com.sportsgameodds.api.models.players.PlayerGetParams
 import java.util.function.Consumer
 
@@ -50,8 +49,8 @@ class PlayerServiceImpl internal constructor(private val clientOptions: ClientOp
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val getHandler: Handler<DataEnvelope<Player>> =
-            jsonHandler<DataEnvelope<Player>>(clientOptions.jsonMapper)
+        private val getHandler: Handler<PlayerGetPageResponse> =
+            jsonHandler<PlayerGetPageResponse>(clientOptions.jsonMapper)
 
         override fun get(
             params: PlayerGetParams,

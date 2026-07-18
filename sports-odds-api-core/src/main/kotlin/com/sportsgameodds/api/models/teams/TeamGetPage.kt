@@ -5,7 +5,6 @@ package com.sportsgameodds.api.models.teams
 import com.sportsgameodds.api.core.AutoPager
 import com.sportsgameodds.api.core.Page
 import com.sportsgameodds.api.core.checkRequired
-import com.sportsgameodds.api.models.DataEnvelope
 import com.sportsgameodds.api.services.blocking.TeamService
 import java.util.Objects
 import java.util.Optional
@@ -16,7 +15,7 @@ class TeamGetPage
 private constructor(
     private val service: TeamService,
     private val params: TeamGetParams,
-    private val response: DataEnvelope<Team>,
+    private val response: TeamGetPageResponse,
 ) : Page<Team> {
 
     /**
@@ -52,7 +51,7 @@ private constructor(
     fun params(): TeamGetParams = params
 
     /** The response that this page was parsed from. */
-    fun response(): DataEnvelope<Team> = response
+    fun response(): TeamGetPageResponse = response
 
     fun toBuilder() = Builder().from(this)
 
@@ -76,7 +75,7 @@ private constructor(
 
         private var service: TeamService? = null
         private var params: TeamGetParams? = null
-        private var response: DataEnvelope<Team>? = null
+        private var response: TeamGetPageResponse? = null
 
         @JvmSynthetic
         internal fun from(teamGetPage: TeamGetPage) = apply {
@@ -91,7 +90,7 @@ private constructor(
         fun params(params: TeamGetParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: DataEnvelope<Team>) = apply { this.response = response }
+        fun response(response: TeamGetPageResponse) = apply { this.response = response }
 
         /**
          * Returns an immutable instance of [TeamGetPage].

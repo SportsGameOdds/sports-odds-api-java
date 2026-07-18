@@ -5,7 +5,6 @@ package com.sportsgameodds.api.models.events
 import com.sportsgameodds.api.core.AutoPagerAsync
 import com.sportsgameodds.api.core.PageAsync
 import com.sportsgameodds.api.core.checkRequired
-import com.sportsgameodds.api.models.DataEnvelope
 import com.sportsgameodds.api.services.async.EventServiceAsync
 import java.util.Objects
 import java.util.Optional
@@ -19,7 +18,7 @@ private constructor(
     private val service: EventServiceAsync,
     private val streamHandlerExecutor: Executor,
     private val params: EventGetParams,
-    private val response: DataEnvelope<Event>,
+    private val response: EventGetPageResponse,
 ) : PageAsync<Event> {
 
     /**
@@ -55,7 +54,7 @@ private constructor(
     fun params(): EventGetParams = params
 
     /** The response that this page was parsed from. */
-    fun response(): DataEnvelope<Event> = response
+    fun response(): EventGetPageResponse = response
 
     fun toBuilder() = Builder().from(this)
 
@@ -81,7 +80,7 @@ private constructor(
         private var service: EventServiceAsync? = null
         private var streamHandlerExecutor: Executor? = null
         private var params: EventGetParams? = null
-        private var response: DataEnvelope<Event>? = null
+        private var response: EventGetPageResponse? = null
 
         @JvmSynthetic
         internal fun from(eventGetPageAsync: EventGetPageAsync) = apply {
@@ -101,7 +100,7 @@ private constructor(
         fun params(params: EventGetParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: DataEnvelope<Event>) = apply { this.response = response }
+        fun response(response: EventGetPageResponse) = apply { this.response = response }
 
         /**
          * Returns an immutable instance of [EventGetPageAsync].
