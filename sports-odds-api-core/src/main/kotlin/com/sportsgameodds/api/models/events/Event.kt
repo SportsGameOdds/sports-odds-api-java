@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.sportsgameodds.api.core.Enum
 import com.sportsgameodds.api.core.ExcludeMissing
 import com.sportsgameodds.api.core.JsonField
 import com.sportsgameodds.api.core.JsonMissing
@@ -110,6 +111,8 @@ private constructor(
     fun players(): Optional<Players> = players.getOptional("players")
 
     /**
+     * Nested results in the format `{periodID}.{statEntityID}.{statID} → number`.
+     *
      * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type (e.g. if
      *   the server responded with an unexpected value).
      */
@@ -346,6 +349,7 @@ private constructor(
          */
         fun players(players: JsonField<Players>) = apply { this.players = players }
 
+        /** Nested results in the format `{periodID}.{statEntityID}.{statID} → number`. */
         fun results(results: Results) = results(JsonField.of(results))
 
         /**
@@ -678,22 +682,64 @@ private constructor(
     class Info
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
+        private val broadcasts: JsonField<List<Broadcast>>,
+        private val referee: JsonField<Referee>,
         private val seasonWeek: JsonField<String>,
+        private val venue: JsonField<Venue>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
         @JsonCreator
         private constructor(
+            @JsonProperty("broadcasts")
+            @ExcludeMissing
+            broadcasts: JsonField<List<Broadcast>> = JsonMissing.of(),
+            @JsonProperty("referee") @ExcludeMissing referee: JsonField<Referee> = JsonMissing.of(),
             @JsonProperty("seasonWeek")
             @ExcludeMissing
-            seasonWeek: JsonField<String> = JsonMissing.of()
-        ) : this(seasonWeek, mutableMapOf())
+            seasonWeek: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("venue") @ExcludeMissing venue: JsonField<Venue> = JsonMissing.of(),
+        ) : this(broadcasts, referee, seasonWeek, venue, mutableMapOf())
+
+        /**
+         * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
+        fun broadcasts(): Optional<List<Broadcast>> = broadcasts.getOptional("broadcasts")
+
+        /**
+         * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
+        fun referee(): Optional<Referee> = referee.getOptional("referee")
 
         /**
          * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type (e.g.
          *   if the server responded with an unexpected value).
          */
         fun seasonWeek(): Optional<String> = seasonWeek.getOptional("seasonWeek")
+
+        /**
+         * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
+        fun venue(): Optional<Venue> = venue.getOptional("venue")
+
+        /**
+         * Returns the raw JSON value of [broadcasts].
+         *
+         * Unlike [broadcasts], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("broadcasts")
+        @ExcludeMissing
+        fun _broadcasts(): JsonField<List<Broadcast>> = broadcasts
+
+        /**
+         * Returns the raw JSON value of [referee].
+         *
+         * Unlike [referee], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("referee") @ExcludeMissing fun _referee(): JsonField<Referee> = referee
 
         /**
          * Returns the raw JSON value of [seasonWeek].
@@ -703,6 +749,13 @@ private constructor(
         @JsonProperty("seasonWeek")
         @ExcludeMissing
         fun _seasonWeek(): JsonField<String> = seasonWeek
+
+        /**
+         * Returns the raw JSON value of [venue].
+         *
+         * Unlike [venue], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("venue") @ExcludeMissing fun _venue(): JsonField<Venue> = venue
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -725,14 +778,56 @@ private constructor(
         /** A builder for [Info]. */
         class Builder internal constructor() {
 
+            private var broadcasts: JsonField<MutableList<Broadcast>>? = null
+            private var referee: JsonField<Referee> = JsonMissing.of()
             private var seasonWeek: JsonField<String> = JsonMissing.of()
+            private var venue: JsonField<Venue> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(info: Info) = apply {
+                broadcasts = info.broadcasts.map { it.toMutableList() }
+                referee = info.referee
                 seasonWeek = info.seasonWeek
+                venue = info.venue
                 additionalProperties = info.additionalProperties.toMutableMap()
             }
+
+            fun broadcasts(broadcasts: List<Broadcast>) = broadcasts(JsonField.of(broadcasts))
+
+            /**
+             * Sets [Builder.broadcasts] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.broadcasts] with a well-typed `List<Broadcast>`
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun broadcasts(broadcasts: JsonField<List<Broadcast>>) = apply {
+                this.broadcasts = broadcasts.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [Broadcast] to [broadcasts].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addBroadcast(broadcast: Broadcast) = apply {
+                broadcasts =
+                    (broadcasts ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("broadcasts", it).add(broadcast)
+                    }
+            }
+
+            fun referee(referee: Referee) = referee(JsonField.of(referee))
+
+            /**
+             * Sets [Builder.referee] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.referee] with a well-typed [Referee] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun referee(referee: JsonField<Referee>) = apply { this.referee = referee }
 
             fun seasonWeek(seasonWeek: String) = seasonWeek(JsonField.of(seasonWeek))
 
@@ -744,6 +839,17 @@ private constructor(
              * supported value.
              */
             fun seasonWeek(seasonWeek: JsonField<String>) = apply { this.seasonWeek = seasonWeek }
+
+            fun venue(venue: Venue) = venue(JsonField.of(venue))
+
+            /**
+             * Sets [Builder.venue] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.venue] with a well-typed [Venue] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun venue(venue: JsonField<Venue>) = apply { this.venue = venue }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -769,7 +875,14 @@ private constructor(
              *
              * Further updates to this [Builder] will not mutate the returned instance.
              */
-            fun build(): Info = Info(seasonWeek, additionalProperties.toMutableMap())
+            fun build(): Info =
+                Info(
+                    (broadcasts ?: JsonMissing.of()).map { it.toImmutable() },
+                    referee,
+                    seasonWeek,
+                    venue,
+                    additionalProperties.toMutableMap(),
+                )
         }
 
         private var validated: Boolean = false
@@ -788,7 +901,10 @@ private constructor(
                 return@apply
             }
 
+            broadcasts().ifPresent { it.forEach { it.validate() } }
+            referee().ifPresent { it.validate() }
             seasonWeek()
+            venue().ifPresent { it.validate() }
             validated = true
         }
 
@@ -806,7 +922,977 @@ private constructor(
          *
          * Used for best match union deserialization.
          */
-        @JvmSynthetic internal fun validity(): Int = (if (seasonWeek.asKnown().isPresent) 1 else 0)
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (broadcasts.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+                (referee.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (seasonWeek.asKnown().isPresent) 1 else 0) +
+                (venue.asKnown().getOrNull()?.validity() ?: 0)
+
+        class Broadcast
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val broadcasterId: JsonField<String>,
+            private val name: JsonField<String>,
+            private val type: JsonField<Type>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("broadcasterID")
+                @ExcludeMissing
+                broadcasterId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
+            ) : this(broadcasterId, name, type, mutableMapOf())
+
+            /**
+             * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
+            fun broadcasterId(): Optional<String> = broadcasterId.getOptional("broadcasterID")
+
+            /**
+             * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
+            fun name(): Optional<String> = name.getOptional("name")
+
+            /**
+             * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
+            fun type(): Optional<Type> = type.getOptional("type")
+
+            /**
+             * Returns the raw JSON value of [broadcasterId].
+             *
+             * Unlike [broadcasterId], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("broadcasterID")
+            @ExcludeMissing
+            fun _broadcasterId(): JsonField<String> = broadcasterId
+
+            /**
+             * Returns the raw JSON value of [name].
+             *
+             * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
+            /**
+             * Returns the raw JSON value of [type].
+             *
+             * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /** Returns a mutable builder for constructing an instance of [Broadcast]. */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [Broadcast]. */
+            class Builder internal constructor() {
+
+                private var broadcasterId: JsonField<String> = JsonMissing.of()
+                private var name: JsonField<String> = JsonMissing.of()
+                private var type: JsonField<Type> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(broadcast: Broadcast) = apply {
+                    broadcasterId = broadcast.broadcasterId
+                    name = broadcast.name
+                    type = broadcast.type
+                    additionalProperties = broadcast.additionalProperties.toMutableMap()
+                }
+
+                fun broadcasterId(broadcasterId: String) =
+                    broadcasterId(JsonField.of(broadcasterId))
+
+                /**
+                 * Sets [Builder.broadcasterId] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.broadcasterId] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun broadcasterId(broadcasterId: JsonField<String>) = apply {
+                    this.broadcasterId = broadcasterId
+                }
+
+                fun name(name: String) = name(JsonField.of(name))
+
+                /**
+                 * Sets [Builder.name] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.name] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun name(name: JsonField<String>) = apply { this.name = name }
+
+                fun type(type: Type) = type(JsonField.of(type))
+
+                /**
+                 * Sets [Builder.type] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.type] with a well-typed [Type] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun type(type: JsonField<Type>) = apply { this.type = type }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [Broadcast].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
+                fun build(): Broadcast =
+                    Broadcast(broadcasterId, name, type, additionalProperties.toMutableMap())
+            }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws SportsGameOddsInvalidDataException if any value type in this object doesn't
+             *   match its expected type.
+             */
+            fun validate(): Broadcast = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                broadcasterId()
+                name()
+                type().ifPresent { it.validate() }
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: SportsGameOddsInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (if (broadcasterId.asKnown().isPresent) 1 else 0) +
+                    (if (name.asKnown().isPresent) 1 else 0) +
+                    (type.asKnown().getOrNull()?.validity() ?: 0)
+
+            class Type @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val TV = of("tv")
+
+                    @JvmField val WEBSTREAM = of("webstream")
+
+                    @JvmField val SUBSCRIPTION = of("subscription")
+
+                    @JvmField val SPORTSBOOK = of("sportsbook")
+
+                    @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+                }
+
+                /** An enum containing [Type]'s known values. */
+                enum class Known {
+                    TV,
+                    WEBSTREAM,
+                    SUBSCRIPTION,
+                    SPORTSBOOK,
+                }
+
+                /**
+                 * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [Type] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    TV,
+                    WEBSTREAM,
+                    SUBSCRIPTION,
+                    SPORTSBOOK,
+                    /**
+                     * An enum member indicating that [Type] was instantiated with an unknown value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        TV -> Value.TV
+                        WEBSTREAM -> Value.WEBSTREAM
+                        SUBSCRIPTION -> Value.SUBSCRIPTION
+                        SPORTSBOOK -> Value.SPORTSBOOK
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws SportsGameOddsInvalidDataException if this class instance's value is a
+                 *   not a known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        TV -> Known.TV
+                        WEBSTREAM -> Known.WEBSTREAM
+                        SUBSCRIPTION -> Known.SUBSCRIPTION
+                        SPORTSBOOK -> Known.SPORTSBOOK
+                        else -> throw SportsGameOddsInvalidDataException("Unknown Type: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws SportsGameOddsInvalidDataException if this class instance's value does
+                 *   not have the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        SportsGameOddsInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws SportsGameOddsInvalidDataException if any value type in this object
+                 *   doesn't match its expected type.
+                 */
+                fun validate(): Type = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: SportsGameOddsInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Type && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Broadcast &&
+                    broadcasterId == other.broadcasterId &&
+                    name == other.name &&
+                    type == other.type &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy {
+                Objects.hash(broadcasterId, name, type, additionalProperties)
+            }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "Broadcast{broadcasterId=$broadcasterId, name=$name, type=$type, additionalProperties=$additionalProperties}"
+        }
+
+        class Referee
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val name: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of()
+            ) : this(name, mutableMapOf())
+
+            /**
+             * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
+            fun name(): Optional<String> = name.getOptional("name")
+
+            /**
+             * Returns the raw JSON value of [name].
+             *
+             * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /** Returns a mutable builder for constructing an instance of [Referee]. */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [Referee]. */
+            class Builder internal constructor() {
+
+                private var name: JsonField<String> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(referee: Referee) = apply {
+                    name = referee.name
+                    additionalProperties = referee.additionalProperties.toMutableMap()
+                }
+
+                fun name(name: String) = name(JsonField.of(name))
+
+                /**
+                 * Sets [Builder.name] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.name] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun name(name: JsonField<String>) = apply { this.name = name }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [Referee].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
+                fun build(): Referee = Referee(name, additionalProperties.toMutableMap())
+            }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws SportsGameOddsInvalidDataException if any value type in this object doesn't
+             *   match its expected type.
+             */
+            fun validate(): Referee = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                name()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: SportsGameOddsInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = (if (name.asKnown().isPresent) 1 else 0)
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Referee &&
+                    name == other.name &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy { Objects.hash(name, additionalProperties) }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "Referee{name=$name, additionalProperties=$additionalProperties}"
+        }
+
+        class Venue
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val address: JsonField<String>,
+            private val capacity: JsonField<Double>,
+            private val city: JsonField<String>,
+            private val countryCode: JsonField<String>,
+            private val countryName: JsonField<String>,
+            private val name: JsonField<String>,
+            private val regionCode: JsonField<String>,
+            private val regionName: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("address")
+                @ExcludeMissing
+                address: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("capacity")
+                @ExcludeMissing
+                capacity: JsonField<Double> = JsonMissing.of(),
+                @JsonProperty("city") @ExcludeMissing city: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("countryCode")
+                @ExcludeMissing
+                countryCode: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("countryName")
+                @ExcludeMissing
+                countryName: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("regionCode")
+                @ExcludeMissing
+                regionCode: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("regionName")
+                @ExcludeMissing
+                regionName: JsonField<String> = JsonMissing.of(),
+            ) : this(
+                address,
+                capacity,
+                city,
+                countryCode,
+                countryName,
+                name,
+                regionCode,
+                regionName,
+                mutableMapOf(),
+            )
+
+            /**
+             * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
+            fun address(): Optional<String> = address.getOptional("address")
+
+            /**
+             * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
+            fun capacity(): Optional<Double> = capacity.getOptional("capacity")
+
+            /**
+             * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
+            fun city(): Optional<String> = city.getOptional("city")
+
+            /**
+             * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
+            fun countryCode(): Optional<String> = countryCode.getOptional("countryCode")
+
+            /**
+             * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
+            fun countryName(): Optional<String> = countryName.getOptional("countryName")
+
+            /**
+             * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
+            fun name(): Optional<String> = name.getOptional("name")
+
+            /**
+             * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
+            fun regionCode(): Optional<String> = regionCode.getOptional("regionCode")
+
+            /**
+             * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
+            fun regionName(): Optional<String> = regionName.getOptional("regionName")
+
+            /**
+             * Returns the raw JSON value of [address].
+             *
+             * Unlike [address], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("address") @ExcludeMissing fun _address(): JsonField<String> = address
+
+            /**
+             * Returns the raw JSON value of [capacity].
+             *
+             * Unlike [capacity], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("capacity") @ExcludeMissing fun _capacity(): JsonField<Double> = capacity
+
+            /**
+             * Returns the raw JSON value of [city].
+             *
+             * Unlike [city], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("city") @ExcludeMissing fun _city(): JsonField<String> = city
+
+            /**
+             * Returns the raw JSON value of [countryCode].
+             *
+             * Unlike [countryCode], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("countryCode")
+            @ExcludeMissing
+            fun _countryCode(): JsonField<String> = countryCode
+
+            /**
+             * Returns the raw JSON value of [countryName].
+             *
+             * Unlike [countryName], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("countryName")
+            @ExcludeMissing
+            fun _countryName(): JsonField<String> = countryName
+
+            /**
+             * Returns the raw JSON value of [name].
+             *
+             * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
+            /**
+             * Returns the raw JSON value of [regionCode].
+             *
+             * Unlike [regionCode], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("regionCode")
+            @ExcludeMissing
+            fun _regionCode(): JsonField<String> = regionCode
+
+            /**
+             * Returns the raw JSON value of [regionName].
+             *
+             * Unlike [regionName], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("regionName")
+            @ExcludeMissing
+            fun _regionName(): JsonField<String> = regionName
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /** Returns a mutable builder for constructing an instance of [Venue]. */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [Venue]. */
+            class Builder internal constructor() {
+
+                private var address: JsonField<String> = JsonMissing.of()
+                private var capacity: JsonField<Double> = JsonMissing.of()
+                private var city: JsonField<String> = JsonMissing.of()
+                private var countryCode: JsonField<String> = JsonMissing.of()
+                private var countryName: JsonField<String> = JsonMissing.of()
+                private var name: JsonField<String> = JsonMissing.of()
+                private var regionCode: JsonField<String> = JsonMissing.of()
+                private var regionName: JsonField<String> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(venue: Venue) = apply {
+                    address = venue.address
+                    capacity = venue.capacity
+                    city = venue.city
+                    countryCode = venue.countryCode
+                    countryName = venue.countryName
+                    name = venue.name
+                    regionCode = venue.regionCode
+                    regionName = venue.regionName
+                    additionalProperties = venue.additionalProperties.toMutableMap()
+                }
+
+                fun address(address: String) = address(JsonField.of(address))
+
+                /**
+                 * Sets [Builder.address] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.address] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun address(address: JsonField<String>) = apply { this.address = address }
+
+                fun capacity(capacity: Double) = capacity(JsonField.of(capacity))
+
+                /**
+                 * Sets [Builder.capacity] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.capacity] with a well-typed [Double] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun capacity(capacity: JsonField<Double>) = apply { this.capacity = capacity }
+
+                fun city(city: String) = city(JsonField.of(city))
+
+                /**
+                 * Sets [Builder.city] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.city] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun city(city: JsonField<String>) = apply { this.city = city }
+
+                fun countryCode(countryCode: String) = countryCode(JsonField.of(countryCode))
+
+                /**
+                 * Sets [Builder.countryCode] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.countryCode] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun countryCode(countryCode: JsonField<String>) = apply {
+                    this.countryCode = countryCode
+                }
+
+                fun countryName(countryName: String) = countryName(JsonField.of(countryName))
+
+                /**
+                 * Sets [Builder.countryName] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.countryName] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun countryName(countryName: JsonField<String>) = apply {
+                    this.countryName = countryName
+                }
+
+                fun name(name: String) = name(JsonField.of(name))
+
+                /**
+                 * Sets [Builder.name] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.name] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun name(name: JsonField<String>) = apply { this.name = name }
+
+                fun regionCode(regionCode: String) = regionCode(JsonField.of(regionCode))
+
+                /**
+                 * Sets [Builder.regionCode] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.regionCode] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun regionCode(regionCode: JsonField<String>) = apply {
+                    this.regionCode = regionCode
+                }
+
+                fun regionName(regionName: String) = regionName(JsonField.of(regionName))
+
+                /**
+                 * Sets [Builder.regionName] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.regionName] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun regionName(regionName: JsonField<String>) = apply {
+                    this.regionName = regionName
+                }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [Venue].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
+                fun build(): Venue =
+                    Venue(
+                        address,
+                        capacity,
+                        city,
+                        countryCode,
+                        countryName,
+                        name,
+                        regionCode,
+                        regionName,
+                        additionalProperties.toMutableMap(),
+                    )
+            }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws SportsGameOddsInvalidDataException if any value type in this object doesn't
+             *   match its expected type.
+             */
+            fun validate(): Venue = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                address()
+                capacity()
+                city()
+                countryCode()
+                countryName()
+                name()
+                regionCode()
+                regionName()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: SportsGameOddsInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (if (address.asKnown().isPresent) 1 else 0) +
+                    (if (capacity.asKnown().isPresent) 1 else 0) +
+                    (if (city.asKnown().isPresent) 1 else 0) +
+                    (if (countryCode.asKnown().isPresent) 1 else 0) +
+                    (if (countryName.asKnown().isPresent) 1 else 0) +
+                    (if (name.asKnown().isPresent) 1 else 0) +
+                    (if (regionCode.asKnown().isPresent) 1 else 0) +
+                    (if (regionName.asKnown().isPresent) 1 else 0)
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Venue &&
+                    address == other.address &&
+                    capacity == other.capacity &&
+                    city == other.city &&
+                    countryCode == other.countryCode &&
+                    countryName == other.countryName &&
+                    name == other.name &&
+                    regionCode == other.regionCode &&
+                    regionName == other.regionName &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy {
+                Objects.hash(
+                    address,
+                    capacity,
+                    city,
+                    countryCode,
+                    countryName,
+                    name,
+                    regionCode,
+                    regionName,
+                    additionalProperties,
+                )
+            }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "Venue{address=$address, capacity=$capacity, city=$city, countryCode=$countryCode, countryName=$countryName, name=$name, regionCode=$regionCode, regionName=$regionName, additionalProperties=$additionalProperties}"
+        }
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -814,16 +1900,21 @@ private constructor(
             }
 
             return other is Info &&
+                broadcasts == other.broadcasts &&
+                referee == other.referee &&
                 seasonWeek == other.seasonWeek &&
+                venue == other.venue &&
                 additionalProperties == other.additionalProperties
         }
 
-        private val hashCode: Int by lazy { Objects.hash(seasonWeek, additionalProperties) }
+        private val hashCode: Int by lazy {
+            Objects.hash(broadcasts, referee, seasonWeek, venue, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Info{seasonWeek=$seasonWeek, additionalProperties=$additionalProperties}"
+            "Info{broadcasts=$broadcasts, referee=$referee, seasonWeek=$seasonWeek, venue=$venue, additionalProperties=$additionalProperties}"
     }
 
     class Odds
@@ -1042,6 +2133,7 @@ private constructor(
         override fun toString() = "Players{additionalProperties=$additionalProperties}"
     }
 
+    /** Nested results in the format `{periodID}.{statEntityID}.{statID} → number`. */
     class Results
     @JsonCreator
     private constructor(

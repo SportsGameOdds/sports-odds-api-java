@@ -6,6 +6,7 @@ import com.sportsgameodds.api.core.ClientOptions
 import com.sportsgameodds.api.services.async.AccountServiceAsync
 import com.sportsgameodds.api.services.async.EventServiceAsync
 import com.sportsgameodds.api.services.async.LeagueServiceAsync
+import com.sportsgameodds.api.services.async.MarketServiceAsync
 import com.sportsgameodds.api.services.async.PlayerServiceAsync
 import com.sportsgameodds.api.services.async.SportServiceAsync
 import com.sportsgameodds.api.services.async.StatServiceAsync
@@ -51,6 +52,9 @@ interface SportsGameOddsClientAsync {
 
     /** Get info about Events (includes odds, results, teams, and other metadata) */
     fun events(): EventServiceAsync
+
+    /** Get metadata on supported Markets */
+    fun markets(): MarketServiceAsync
 
     /** Get Team-related data */
     fun teams(): TeamServiceAsync
@@ -103,6 +107,9 @@ interface SportsGameOddsClientAsync {
 
         /** Get info about Events (includes odds, results, teams, and other metadata) */
         fun events(): EventServiceAsync.WithRawResponse
+
+        /** Get metadata on supported Markets */
+        fun markets(): MarketServiceAsync.WithRawResponse
 
         /** Get Team-related data */
         fun teams(): TeamServiceAsync.WithRawResponse

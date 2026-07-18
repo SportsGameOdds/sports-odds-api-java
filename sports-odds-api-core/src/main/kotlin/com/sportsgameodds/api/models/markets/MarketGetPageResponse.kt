@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package com.sportsgameodds.api.models.events
+package com.sportsgameodds.api.models.markets
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
@@ -18,45 +18,35 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-class EventGetPageResponse
+class MarketGetPageResponse
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
-    private val data: JsonField<List<Event>>,
+    private val data: JsonField<List<Market>>,
     private val nextCursor: JsonField<String>,
-    private val notice: JsonField<String>,
     private val success: JsonField<Boolean>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
     @JsonCreator
     private constructor(
-        @JsonProperty("data") @ExcludeMissing data: JsonField<List<Event>> = JsonMissing.of(),
+        @JsonProperty("data") @ExcludeMissing data: JsonField<List<Market>> = JsonMissing.of(),
         @JsonProperty("nextCursor")
         @ExcludeMissing
         nextCursor: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("notice") @ExcludeMissing notice: JsonField<String> = JsonMissing.of(),
         @JsonProperty("success") @ExcludeMissing success: JsonField<Boolean> = JsonMissing.of(),
-    ) : this(data, nextCursor, notice, success, mutableMapOf())
+    ) : this(data, nextCursor, success, mutableMapOf())
 
     /**
      * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type (e.g. if
      *   the server responded with an unexpected value).
      */
-    fun data(): Optional<List<Event>> = data.getOptional("data")
+    fun data(): Optional<List<Market>> = data.getOptional("data")
 
     /**
      * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type (e.g. if
      *   the server responded with an unexpected value).
      */
     fun nextCursor(): Optional<String> = nextCursor.getOptional("nextCursor")
-
-    /**
-     * Optional notice about filtered data due to API key limitations
-     *
-     * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type (e.g. if
-     *   the server responded with an unexpected value).
-     */
-    fun notice(): Optional<String> = notice.getOptional("notice")
 
     /**
      * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type (e.g. if
@@ -69,7 +59,7 @@ private constructor(
      *
      * Unlike [data], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<List<Event>> = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<List<Market>> = data
 
     /**
      * Returns the raw JSON value of [nextCursor].
@@ -77,13 +67,6 @@ private constructor(
      * Unlike [nextCursor], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("nextCursor") @ExcludeMissing fun _nextCursor(): JsonField<String> = nextCursor
-
-    /**
-     * Returns the raw JSON value of [notice].
-     *
-     * Unlike [notice], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @JsonProperty("notice") @ExcludeMissing fun _notice(): JsonField<String> = notice
 
     /**
      * Returns the raw JSON value of [success].
@@ -106,47 +89,45 @@ private constructor(
 
     companion object {
 
-        /** Returns a mutable builder for constructing an instance of [EventGetPageResponse]. */
+        /** Returns a mutable builder for constructing an instance of [MarketGetPageResponse]. */
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [EventGetPageResponse]. */
+    /** A builder for [MarketGetPageResponse]. */
     class Builder internal constructor() {
 
-        private var data: JsonField<MutableList<Event>>? = null
+        private var data: JsonField<MutableList<Market>>? = null
         private var nextCursor: JsonField<String> = JsonMissing.of()
-        private var notice: JsonField<String> = JsonMissing.of()
         private var success: JsonField<Boolean> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(eventGetPageResponse: EventGetPageResponse) = apply {
-            data = eventGetPageResponse.data.map { it.toMutableList() }
-            nextCursor = eventGetPageResponse.nextCursor
-            notice = eventGetPageResponse.notice
-            success = eventGetPageResponse.success
-            additionalProperties = eventGetPageResponse.additionalProperties.toMutableMap()
+        internal fun from(marketGetPageResponse: MarketGetPageResponse) = apply {
+            data = marketGetPageResponse.data.map { it.toMutableList() }
+            nextCursor = marketGetPageResponse.nextCursor
+            success = marketGetPageResponse.success
+            additionalProperties = marketGetPageResponse.additionalProperties.toMutableMap()
         }
 
-        fun data(data: List<Event>) = data(JsonField.of(data))
+        fun data(data: List<Market>) = data(JsonField.of(data))
 
         /**
          * Sets [Builder.data] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.data] with a well-typed `List<Event>` value instead.
+         * You should usually call [Builder.data] with a well-typed `List<Market>` value instead.
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun data(data: JsonField<List<Event>>) = apply {
+        fun data(data: JsonField<List<Market>>) = apply {
             this.data = data.map { it.toMutableList() }
         }
 
         /**
-         * Adds a single [Event] to [Builder.data].
+         * Adds a single [Market] to [Builder.data].
          *
          * @throws IllegalStateException if the field was previously set to a non-list.
          */
-        fun addData(data: Event) = apply {
+        fun addData(data: Market) = apply {
             this.data =
                 (this.data ?: JsonField.of(mutableListOf())).also {
                     checkKnown("data", it).add(data)
@@ -163,17 +144,6 @@ private constructor(
          * value.
          */
         fun nextCursor(nextCursor: JsonField<String>) = apply { this.nextCursor = nextCursor }
-
-        /** Optional notice about filtered data due to API key limitations */
-        fun notice(notice: String) = notice(JsonField.of(notice))
-
-        /**
-         * Sets [Builder.notice] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.notice] with a well-typed [String] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
-         */
-        fun notice(notice: JsonField<String>) = apply { this.notice = notice }
 
         fun success(success: Boolean) = success(JsonField.of(success))
 
@@ -205,15 +175,14 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [EventGetPageResponse].
+         * Returns an immutable instance of [MarketGetPageResponse].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          */
-        fun build(): EventGetPageResponse =
-            EventGetPageResponse(
+        fun build(): MarketGetPageResponse =
+            MarketGetPageResponse(
                 (data ?: JsonMissing.of()).map { it.toImmutable() },
                 nextCursor,
-                notice,
                 success,
                 additionalProperties.toMutableMap(),
             )
@@ -229,14 +198,13 @@ private constructor(
      * @throws SportsGameOddsInvalidDataException if any value type in this object doesn't match its
      *   expected type.
      */
-    fun validate(): EventGetPageResponse = apply {
+    fun validate(): MarketGetPageResponse = apply {
         if (validated) {
             return@apply
         }
 
         data().ifPresent { it.forEach { it.validate() } }
         nextCursor()
-        notice()
         success()
         validated = true
     }
@@ -258,7 +226,6 @@ private constructor(
     internal fun validity(): Int =
         (data.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (if (nextCursor.asKnown().isPresent) 1 else 0) +
-            (if (notice.asKnown().isPresent) 1 else 0) +
             (if (success.asKnown().isPresent) 1 else 0)
 
     override fun equals(other: Any?): Boolean {
@@ -266,20 +233,19 @@ private constructor(
             return true
         }
 
-        return other is EventGetPageResponse &&
+        return other is MarketGetPageResponse &&
             data == other.data &&
             nextCursor == other.nextCursor &&
-            notice == other.notice &&
             success == other.success &&
             additionalProperties == other.additionalProperties
     }
 
     private val hashCode: Int by lazy {
-        Objects.hash(data, nextCursor, notice, success, additionalProperties)
+        Objects.hash(data, nextCursor, success, additionalProperties)
     }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "EventGetPageResponse{data=$data, nextCursor=$nextCursor, notice=$notice, success=$success, additionalProperties=$additionalProperties}"
+        "MarketGetPageResponse{data=$data, nextCursor=$nextCursor, success=$success, additionalProperties=$additionalProperties}"
 }
