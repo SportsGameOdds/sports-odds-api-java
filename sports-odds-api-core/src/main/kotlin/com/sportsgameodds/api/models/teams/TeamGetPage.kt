@@ -23,14 +23,14 @@ private constructor(
      *
      * @see TeamGetPageResponse.data
      */
-    fun data(): List<Team> = response.data().getOrNull() ?: emptyList()
+    fun data(): List<Team> = response._data().getOptional("data").getOrNull() ?: emptyList()
 
     /**
      * Delegates to [TeamGetPageResponse], but gracefully handles missing data.
      *
      * @see TeamGetPageResponse.nextCursor
      */
-    fun nextCursor(): Optional<String> = response.nextCursor()
+    fun nextCursor(): Optional<String> = response._nextCursor().getOptional("nextCursor")
 
     override fun items(): List<Team> = data()
 

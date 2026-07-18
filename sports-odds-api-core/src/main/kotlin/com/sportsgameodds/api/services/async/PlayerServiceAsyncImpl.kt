@@ -20,6 +20,7 @@ import com.sportsgameodds.api.models.players.PlayerGetParams
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
+/** Get Player-related data */
 class PlayerServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     PlayerServiceAsync {
 

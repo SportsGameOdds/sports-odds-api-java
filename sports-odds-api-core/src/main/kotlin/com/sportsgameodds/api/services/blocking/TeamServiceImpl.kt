@@ -19,6 +19,7 @@ import com.sportsgameodds.api.models.teams.TeamGetPageResponse
 import com.sportsgameodds.api.models.teams.TeamGetParams
 import java.util.function.Consumer
 
+/** Get Team-related data */
 class TeamServiceImpl internal constructor(private val clientOptions: ClientOptions) : TeamService {
 
     private val withRawResponse: TeamService.WithRawResponse by lazy {

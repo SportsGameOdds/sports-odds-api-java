@@ -19,6 +19,7 @@ import com.sportsgameodds.api.models.account.AccountGetUsageParams
 import com.sportsgameodds.api.models.account.AccountUsage
 import java.util.function.Consumer
 
+/** Get data related to your Account & API key */
 class AccountServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     AccountService {
 

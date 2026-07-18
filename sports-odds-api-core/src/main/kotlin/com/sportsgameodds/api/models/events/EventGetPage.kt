@@ -23,14 +23,14 @@ private constructor(
      *
      * @see EventGetPageResponse.data
      */
-    fun data(): List<Event> = response.data().getOrNull() ?: emptyList()
+    fun data(): List<Event> = response._data().getOptional("data").getOrNull() ?: emptyList()
 
     /**
      * Delegates to [EventGetPageResponse], but gracefully handles missing data.
      *
      * @see EventGetPageResponse.nextCursor
      */
-    fun nextCursor(): Optional<String> = response.nextCursor()
+    fun nextCursor(): Optional<String> = response._nextCursor().getOptional("nextCursor")
 
     override fun items(): List<Event> = data()
 

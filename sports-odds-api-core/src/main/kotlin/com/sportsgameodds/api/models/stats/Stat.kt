@@ -319,6 +319,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws SportsGameOddsInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): Stat = apply {
         if (validated) {
             return@apply
@@ -480,6 +488,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws SportsGameOddsInvalidDataException if any value type in this object doesn't match
+         *   its expected type.
+         */
         fun validate(): Displays = apply {
             if (validated) {
                 return@apply
@@ -679,6 +696,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws SportsGameOddsInvalidDataException if any value type in this object doesn't match
+         *   its expected type.
+         */
         fun validate(): SupportedLevels = apply {
             if (validated) {
                 return@apply
@@ -788,6 +814,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws SportsGameOddsInvalidDataException if any value type in this object doesn't match
+         *   its expected type.
+         */
         fun validate(): SupportedSports = apply {
             if (validated) {
                 return@apply
@@ -952,6 +987,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws SportsGameOddsInvalidDataException if any value type in this object doesn't match
+         *   its expected type.
+         */
         fun validate(): Units = apply {
             if (validated) {
                 return@apply
@@ -1112,6 +1156,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws SportsGameOddsInvalidDataException if any value type in this object doesn't
+             *   match its expected type.
+             */
             fun validate(): Long = apply {
                 if (validated) {
                     return@apply
@@ -1293,6 +1347,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws SportsGameOddsInvalidDataException if any value type in this object doesn't
+             *   match its expected type.
+             */
             fun validate(): Short = apply {
                 if (validated) {
                     return@apply

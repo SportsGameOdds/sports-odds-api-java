@@ -19,6 +19,7 @@ import com.sportsgameodds.api.models.stats.Stat
 import com.sportsgameodds.api.models.stats.StatGetParams
 import java.util.function.Consumer
 
+/** Get data on specific Stats */
 class StatServiceImpl internal constructor(private val clientOptions: ClientOptions) : StatService {
 
     private val withRawResponse: StatService.WithRawResponse by lazy {

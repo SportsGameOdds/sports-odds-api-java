@@ -26,14 +26,14 @@ private constructor(
      *
      * @see PlayerGetPageResponse.data
      */
-    fun data(): List<Player> = response.data().getOrNull() ?: emptyList()
+    fun data(): List<Player> = response._data().getOptional("data").getOrNull() ?: emptyList()
 
     /**
      * Delegates to [PlayerGetPageResponse], but gracefully handles missing data.
      *
      * @see PlayerGetPageResponse.nextCursor
      */
-    fun nextCursor(): Optional<String> = response.nextCursor()
+    fun nextCursor(): Optional<String> = response._nextCursor().getOptional("nextCursor")
 
     override fun items(): List<Player> = data()
 

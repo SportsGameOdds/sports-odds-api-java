@@ -10,6 +10,7 @@ import com.sportsgameodds.api.models.stats.StatGetParams
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
+/** Get data on specific Stats */
 interface StatServiceAsync {
 
     /**

@@ -20,6 +20,7 @@ import com.sportsgameodds.api.models.leagues.LeagueGetParams
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
+/** Get League-related data */
 class LeagueServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     LeagueServiceAsync {
 

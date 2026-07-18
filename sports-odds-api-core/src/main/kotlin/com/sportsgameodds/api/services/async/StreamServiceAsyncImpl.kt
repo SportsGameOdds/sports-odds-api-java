@@ -19,6 +19,7 @@ import com.sportsgameodds.api.models.stream.StreamEventsResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
+/** Get info about Events (includes odds, results, teams, and other metadata) */
 class StreamServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     StreamServiceAsync {
 

@@ -19,6 +19,7 @@ import com.sportsgameodds.api.models.leagues.League
 import com.sportsgameodds.api.models.leagues.LeagueGetParams
 import java.util.function.Consumer
 
+/** Get League-related data */
 class LeagueServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     LeagueService {
 

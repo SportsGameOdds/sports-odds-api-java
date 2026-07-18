@@ -10,6 +10,7 @@ import com.sportsgameodds.api.models.account.AccountUsage
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
+/** Get data related to your Account & API key */
 interface AccountServiceAsync {
 
     /**

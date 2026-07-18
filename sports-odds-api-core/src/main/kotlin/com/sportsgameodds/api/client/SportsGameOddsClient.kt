@@ -49,20 +49,28 @@ interface SportsGameOddsClient {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): SportsGameOddsClient
 
+    /** Get info about Events (includes odds, results, teams, and other metadata) */
     fun events(): EventService
 
+    /** Get Team-related data */
     fun teams(): TeamService
 
+    /** Get Player-related data */
     fun players(): PlayerService
 
+    /** Get League-related data */
     fun leagues(): LeagueService
 
+    /** Get Sport-related data */
     fun sports(): SportService
 
+    /** Get data on specific Stats */
     fun stats(): StatService
 
+    /** Get data related to your Account & API key */
     fun account(): AccountService
 
+    /** Get info about Events (includes odds, results, teams, and other metadata) */
     fun stream(): StreamService
 
     /**
@@ -92,20 +100,28 @@ interface SportsGameOddsClient {
             modifier: Consumer<ClientOptions.Builder>
         ): SportsGameOddsClient.WithRawResponse
 
+        /** Get info about Events (includes odds, results, teams, and other metadata) */
         fun events(): EventService.WithRawResponse
 
+        /** Get Team-related data */
         fun teams(): TeamService.WithRawResponse
 
+        /** Get Player-related data */
         fun players(): PlayerService.WithRawResponse
 
+        /** Get League-related data */
         fun leagues(): LeagueService.WithRawResponse
 
+        /** Get Sport-related data */
         fun sports(): SportService.WithRawResponse
 
+        /** Get data on specific Stats */
         fun stats(): StatService.WithRawResponse
 
+        /** Get data related to your Account & API key */
         fun account(): AccountService.WithRawResponse
 
+        /** Get info about Events (includes odds, results, teams, and other metadata) */
         fun stream(): StreamService.WithRawResponse
     }
 }
