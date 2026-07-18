@@ -5,7 +5,6 @@ package com.sportsgameodds.api.models.players
 import com.sportsgameodds.api.core.AutoPagerAsync
 import com.sportsgameodds.api.core.PageAsync
 import com.sportsgameodds.api.core.checkRequired
-import com.sportsgameodds.api.models.DataEnvelope
 import com.sportsgameodds.api.services.async.PlayerServiceAsync
 import java.util.Objects
 import java.util.Optional

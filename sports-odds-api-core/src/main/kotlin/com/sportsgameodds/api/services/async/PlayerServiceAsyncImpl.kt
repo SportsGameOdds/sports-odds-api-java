@@ -14,8 +14,6 @@ import com.sportsgameodds.api.core.http.HttpResponse.Handler
 import com.sportsgameodds.api.core.http.HttpResponseFor
 import com.sportsgameodds.api.core.http.parseable
 import com.sportsgameodds.api.core.prepareAsync
-import com.sportsgameodds.api.models.DataEnvelope
-import com.sportsgameodds.api.models.players.Player
 import com.sportsgameodds.api.models.players.PlayerGetPageAsync
 import com.sportsgameodds.api.models.players.PlayerGetPageResponse
 import com.sportsgameodds.api.models.players.PlayerGetParams
