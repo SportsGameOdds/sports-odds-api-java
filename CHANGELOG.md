@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.4.0 (2026-07-18)
+
+Full Changelog: [v1.3.0...v1.4.0](https://github.com/SportsGameOdds/sports-odds-api-java/compare/v1.3.0...v1.4.0)
+
+### Features
+
+* add support for the /markets endpoint ([672cd4c](https://github.com/SportsGameOdds/sports-odds-api-java/commit/672cd4c91890f09d3f138719617064e8933485d7))
+* initial stlc build ([5544637](https://github.com/SportsGameOdds/sports-odds-api-java/commit/5544637f0f68cb49389417c125225e49b33608ae))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([0e7276e](https://github.com/SportsGameOdds/sports-odds-api-java/commit/0e7276ee5b58f81151a10dfaee5876c05db6ae91))
+
+
+### Chores
+
+* adopt current stlc generator output ([a17604d](https://github.com/SportsGameOdds/sports-odds-api-java/commit/a17604d2efc855a2200b39d63e1b4ab805398185))
+
 ## 1.3.0 (2026-07-08)
 
 Full Changelog: [v1.2.1...v1.3.0](https://github.com/SportsGameOdds/sports-odds-api-java/compare/v1.2.1...v1.3.0)
