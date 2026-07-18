@@ -20,8 +20,10 @@ private constructor(
     private val ended: Boolean?,
     private val eventId: String?,
     private val eventIds: String?,
+    private val expandResults: Boolean?,
     private val finalized: Boolean?,
     private val includeAltLines: Boolean?,
+    private val includeOpenCloseOdds: Boolean?,
     private val includeOpposingOdds: Boolean?,
     private val leagueId: String?,
     private val limit: Double?,
@@ -49,8 +51,8 @@ private constructor(
     fun cancelled(): Optional<Boolean> = Optional.ofNullable(cancelled)
 
     /**
-     * The cursor for the request. Used to get the next group of Events. This should be the
-     * nextCursor from the prior response.
+     * The cursor for the request. Used to get the next group of Events. This is an opaque token —
+     * pass the nextCursor value from the prior response unchanged.
      */
     fun cursor(): Optional<String> = Optional.ofNullable(cursor)
 
@@ -67,12 +69,23 @@ private constructor(
     fun eventIds(): Optional<String> = Optional.ofNullable(eventIds)
 
     /**
+     * Whether to expand the results object to include all stat values rather than just the base set
+     */
+    fun expandResults(): Optional<Boolean> = Optional.ofNullable(expandResults)
+
+    /**
      * Only include finalized Events (true), exclude unfinalized Events (false) or all Events (omit)
      */
     fun finalized(): Optional<Boolean> = Optional.ofNullable(finalized)
 
     /** Whether to include alternate lines in the odds byBookmaker data */
     fun includeAltLines(): Optional<Boolean> = Optional.ofNullable(includeAltLines)
+
+    /**
+     * Whether to include open and close odds values (openOdds, closeOdds, openSpread, closeSpread,
+     * openOverUnder, closeOverUnder) in the odds byBookmaker data
+     */
+    fun includeOpenCloseOdds(): Optional<Boolean> = Optional.ofNullable(includeOpenCloseOdds)
 
     /** Whether to include opposing odds for each included oddID */
     fun includeOpposingOdds(): Optional<Boolean> = Optional.ofNullable(includeOpposingOdds)
@@ -152,8 +165,10 @@ private constructor(
         private var ended: Boolean? = null
         private var eventId: String? = null
         private var eventIds: String? = null
+        private var expandResults: Boolean? = null
         private var finalized: Boolean? = null
         private var includeAltLines: Boolean? = null
+        private var includeOpenCloseOdds: Boolean? = null
         private var includeOpposingOdds: Boolean? = null
         private var leagueId: String? = null
         private var limit: Double? = null
@@ -179,8 +194,10 @@ private constructor(
             ended = eventGetParams.ended
             eventId = eventGetParams.eventId
             eventIds = eventGetParams.eventIds
+            expandResults = eventGetParams.expandResults
             finalized = eventGetParams.finalized
             includeAltLines = eventGetParams.includeAltLines
+            includeOpenCloseOdds = eventGetParams.includeOpenCloseOdds
             includeOpposingOdds = eventGetParams.includeOpposingOdds
             leagueId = eventGetParams.leagueId
             limit = eventGetParams.limit
@@ -222,8 +239,8 @@ private constructor(
         fun cancelled(cancelled: Optional<Boolean>) = cancelled(cancelled.getOrNull())
 
         /**
-         * The cursor for the request. Used to get the next group of Events. This should be the
-         * nextCursor from the prior response.
+         * The cursor for the request. Used to get the next group of Events. This is an opaque token
+         * — pass the nextCursor value from the prior response unchanged.
          */
         fun cursor(cursor: String?) = apply { this.cursor = cursor }
 
@@ -259,6 +276,23 @@ private constructor(
         fun eventIds(eventIds: Optional<String>) = eventIds(eventIds.getOrNull())
 
         /**
+         * Whether to expand the results object to include all stat values rather than just the base
+         * set
+         */
+        fun expandResults(expandResults: Boolean?) = apply { this.expandResults = expandResults }
+
+        /**
+         * Alias for [Builder.expandResults].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun expandResults(expandResults: Boolean) = expandResults(expandResults as Boolean?)
+
+        /** Alias for calling [Builder.expandResults] with `expandResults.orElse(null)`. */
+        fun expandResults(expandResults: Optional<Boolean>) =
+            expandResults(expandResults.getOrNull())
+
+        /**
          * Only include finalized Events (true), exclude unfinalized Events (false) or all Events
          * (omit)
          */
@@ -289,6 +323,29 @@ private constructor(
         /** Alias for calling [Builder.includeAltLines] with `includeAltLines.orElse(null)`. */
         fun includeAltLines(includeAltLines: Optional<Boolean>) =
             includeAltLines(includeAltLines.getOrNull())
+
+        /**
+         * Whether to include open and close odds values (openOdds, closeOdds, openSpread,
+         * closeSpread, openOverUnder, closeOverUnder) in the odds byBookmaker data
+         */
+        fun includeOpenCloseOdds(includeOpenCloseOdds: Boolean?) = apply {
+            this.includeOpenCloseOdds = includeOpenCloseOdds
+        }
+
+        /**
+         * Alias for [Builder.includeOpenCloseOdds].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun includeOpenCloseOdds(includeOpenCloseOdds: Boolean) =
+            includeOpenCloseOdds(includeOpenCloseOdds as Boolean?)
+
+        /**
+         * Alias for calling [Builder.includeOpenCloseOdds] with
+         * `includeOpenCloseOdds.orElse(null)`.
+         */
+        fun includeOpenCloseOdds(includeOpenCloseOdds: Optional<Boolean>) =
+            includeOpenCloseOdds(includeOpenCloseOdds.getOrNull())
 
         /** Whether to include opposing odds for each included oddID */
         fun includeOpposingOdds(includeOpposingOdds: Boolean?) = apply {
@@ -549,8 +606,10 @@ private constructor(
                 ended,
                 eventId,
                 eventIds,
+                expandResults,
                 finalized,
                 includeAltLines,
+                includeOpenCloseOdds,
                 includeOpposingOdds,
                 leagueId,
                 limit,
@@ -581,8 +640,10 @@ private constructor(
                 ended?.let { put("ended", it.toString()) }
                 eventId?.let { put("eventID", it) }
                 eventIds?.let { put("eventIDs", it) }
+                expandResults?.let { put("expandResults", it.toString()) }
                 finalized?.let { put("finalized", it.toString()) }
                 includeAltLines?.let { put("includeAltLines", it.toString()) }
+                includeOpenCloseOdds?.let { put("includeOpenCloseOdds", it.toString()) }
                 includeOpposingOdds?.let { put("includeOpposingOdds", it.toString()) }
                 leagueId?.let { put("leagueID", it) }
                 limit?.let { put("limit", it.toString()) }
@@ -617,8 +678,10 @@ private constructor(
             ended == other.ended &&
             eventId == other.eventId &&
             eventIds == other.eventIds &&
+            expandResults == other.expandResults &&
             finalized == other.finalized &&
             includeAltLines == other.includeAltLines &&
+            includeOpenCloseOdds == other.includeOpenCloseOdds &&
             includeOpposingOdds == other.includeOpposingOdds &&
             leagueId == other.leagueId &&
             limit == other.limit &&
@@ -645,8 +708,10 @@ private constructor(
             ended,
             eventId,
             eventIds,
+            expandResults,
             finalized,
             includeAltLines,
+            includeOpenCloseOdds,
             includeOpposingOdds,
             leagueId,
             limit,
@@ -666,5 +731,5 @@ private constructor(
         )
 
     override fun toString() =
-        "EventGetParams{bookmakerId=$bookmakerId, cancelled=$cancelled, cursor=$cursor, ended=$ended, eventId=$eventId, eventIds=$eventIds, finalized=$finalized, includeAltLines=$includeAltLines, includeOpposingOdds=$includeOpposingOdds, leagueId=$leagueId, limit=$limit, live=$live, oddId=$oddId, oddsAvailable=$oddsAvailable, oddsPresent=$oddsPresent, playerId=$playerId, sportId=$sportId, started=$started, startsAfter=$startsAfter, startsBefore=$startsBefore, teamId=$teamId, type=$type, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "EventGetParams{bookmakerId=$bookmakerId, cancelled=$cancelled, cursor=$cursor, ended=$ended, eventId=$eventId, eventIds=$eventIds, expandResults=$expandResults, finalized=$finalized, includeAltLines=$includeAltLines, includeOpenCloseOdds=$includeOpenCloseOdds, includeOpposingOdds=$includeOpposingOdds, leagueId=$leagueId, limit=$limit, live=$live, oddId=$oddId, oddsAvailable=$oddsAvailable, oddsPresent=$oddsPresent, playerId=$playerId, sportId=$sportId, started=$started, startsAfter=$startsAfter, startsBefore=$startsBefore, teamId=$teamId, type=$type, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

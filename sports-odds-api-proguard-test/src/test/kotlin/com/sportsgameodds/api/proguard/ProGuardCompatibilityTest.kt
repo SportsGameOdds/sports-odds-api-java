@@ -50,6 +50,7 @@ internal class ProGuardCompatibilityTest {
 
         assertThat(client).isNotNull()
         assertThat(client.events()).isNotNull()
+        assertThat(client.markets()).isNotNull()
         assertThat(client.teams()).isNotNull()
         assertThat(client.players()).isNotNull()
         assertThat(client.leagues()).isNotNull()
@@ -66,7 +67,31 @@ internal class ProGuardCompatibilityTest {
             Event.builder()
                 .activity(Event.Activity.builder().count(0.0).score(0.0).build())
                 .eventId("eventID")
-                .info(Event.Info.builder().seasonWeek("seasonWeek").build())
+                .info(
+                    Event.Info.builder()
+                        .addBroadcast(
+                            Event.Info.Broadcast.builder()
+                                .broadcasterId("broadcasterID")
+                                .name("name")
+                                .type(Event.Info.Broadcast.Type.TV)
+                                .build()
+                        )
+                        .referee(Event.Info.Referee.builder().name("name").build())
+                        .seasonWeek("seasonWeek")
+                        .venue(
+                            Event.Info.Venue.builder()
+                                .address("address")
+                                .capacity(0.0)
+                                .city("city")
+                                .countryCode("countryCode")
+                                .countryName("countryName")
+                                .name("name")
+                                .regionCode("regionCode")
+                                .regionName("regionName")
+                                .build()
+                        )
+                        .build()
+                )
                 .leagueId("leagueID")
                 .manual(true)
                 .odds(
@@ -86,9 +111,15 @@ internal class ProGuardCompatibilityTest {
                                                 mapOf(
                                                     "available" to true,
                                                     "bookmakerID" to "bookmakerID",
+                                                    "closeOdds" to "closeOdds",
+                                                    "closeOverUnder" to "closeOverUnder",
+                                                    "closeSpread" to "closeSpread",
                                                     "isMainLine" to true,
                                                     "lastUpdatedAt" to "2019-12-27T18:11:19.117Z",
                                                     "odds" to "odds",
+                                                    "openOdds" to "openOdds",
+                                                    "openOverUnder" to "openOverUnder",
+                                                    "openSpread" to "openSpread",
                                                     "overUnder" to "overUnder",
                                                     "spread" to "spread",
                                                 )
@@ -127,6 +158,8 @@ internal class ProGuardCompatibilityTest {
                                     "name" to "name",
                                     "photo" to "photo",
                                     "playerID" to "playerID",
+                                    "status" to "ir",
+                                    "statusDetails" to "statusDetails",
                                     "teamID" to "teamID",
                                 )
                             ),
@@ -136,8 +169,13 @@ internal class ProGuardCompatibilityTest {
                 .results(
                     Event.Results.builder()
                         .putAdditionalProperty(
-                            "foo",
-                            JsonValue.from(mapOf("foo" to mapOf("foo" to 0))),
+                            "game",
+                            JsonValue.from(
+                                mapOf(
+                                    "home" to mapOf("points" to 12),
+                                    "away" to mapOf("points" to 10),
+                                )
+                            ),
                         )
                         .build()
                 )

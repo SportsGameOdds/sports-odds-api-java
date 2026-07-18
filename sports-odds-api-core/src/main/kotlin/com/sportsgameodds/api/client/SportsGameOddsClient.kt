@@ -6,6 +6,7 @@ import com.sportsgameodds.api.core.ClientOptions
 import com.sportsgameodds.api.services.blocking.AccountService
 import com.sportsgameodds.api.services.blocking.EventService
 import com.sportsgameodds.api.services.blocking.LeagueService
+import com.sportsgameodds.api.services.blocking.MarketService
 import com.sportsgameodds.api.services.blocking.PlayerService
 import com.sportsgameodds.api.services.blocking.SportService
 import com.sportsgameodds.api.services.blocking.StatService
@@ -51,6 +52,9 @@ interface SportsGameOddsClient {
 
     /** Get info about Events (includes odds, results, teams, and other metadata) */
     fun events(): EventService
+
+    /** Get metadata on supported Markets */
+    fun markets(): MarketService
 
     /** Get Team-related data */
     fun teams(): TeamService
@@ -102,6 +106,9 @@ interface SportsGameOddsClient {
 
         /** Get info about Events (includes odds, results, teams, and other metadata) */
         fun events(): EventService.WithRawResponse
+
+        /** Get metadata on supported Markets */
+        fun markets(): MarketService.WithRawResponse
 
         /** Get Team-related data */
         fun teams(): TeamService.WithRawResponse

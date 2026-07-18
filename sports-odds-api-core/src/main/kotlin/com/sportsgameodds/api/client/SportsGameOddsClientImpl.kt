@@ -10,6 +10,8 @@ import com.sportsgameodds.api.services.blocking.EventService
 import com.sportsgameodds.api.services.blocking.EventServiceImpl
 import com.sportsgameodds.api.services.blocking.LeagueService
 import com.sportsgameodds.api.services.blocking.LeagueServiceImpl
+import com.sportsgameodds.api.services.blocking.MarketService
+import com.sportsgameodds.api.services.blocking.MarketServiceImpl
 import com.sportsgameodds.api.services.blocking.PlayerService
 import com.sportsgameodds.api.services.blocking.PlayerServiceImpl
 import com.sportsgameodds.api.services.blocking.SportService
@@ -43,6 +45,8 @@ class SportsGameOddsClientImpl(private val clientOptions: ClientOptions) : Sport
 
     private val events: EventService by lazy { EventServiceImpl(clientOptionsWithUserAgent) }
 
+    private val markets: MarketService by lazy { MarketServiceImpl(clientOptionsWithUserAgent) }
+
     private val teams: TeamService by lazy { TeamServiceImpl(clientOptionsWithUserAgent) }
 
     private val players: PlayerService by lazy { PlayerServiceImpl(clientOptionsWithUserAgent) }
@@ -66,6 +70,9 @@ class SportsGameOddsClientImpl(private val clientOptions: ClientOptions) : Sport
 
     /** Get info about Events (includes odds, results, teams, and other metadata) */
     override fun events(): EventService = events
+
+    /** Get metadata on supported Markets */
+    override fun markets(): MarketService = markets
 
     /** Get Team-related data */
     override fun teams(): TeamService = teams
@@ -95,6 +102,10 @@ class SportsGameOddsClientImpl(private val clientOptions: ClientOptions) : Sport
 
         private val events: EventService.WithRawResponse by lazy {
             EventServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val markets: MarketService.WithRawResponse by lazy {
+            MarketServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
         private val teams: TeamService.WithRawResponse by lazy {
@@ -134,6 +145,9 @@ class SportsGameOddsClientImpl(private val clientOptions: ClientOptions) : Sport
 
         /** Get info about Events (includes odds, results, teams, and other metadata) */
         override fun events(): EventService.WithRawResponse = events
+
+        /** Get metadata on supported Markets */
+        override fun markets(): MarketService.WithRawResponse = markets
 
         /** Get Team-related data */
         override fun teams(): TeamService.WithRawResponse = teams

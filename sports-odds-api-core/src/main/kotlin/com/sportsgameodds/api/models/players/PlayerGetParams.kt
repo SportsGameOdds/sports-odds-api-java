@@ -22,8 +22,8 @@ private constructor(
 ) : Params {
 
     /**
-     * The cursor for the request. Used to get the next group of Players. This should be the
-     * nextCursor from the prior response.
+     * The cursor for the request. Used to get the next group of Players. This is an opaque token —
+     * pass the nextCursor value from the prior response unchanged.
      */
     fun cursor(): Optional<String> = Optional.ofNullable(cursor)
 
@@ -78,8 +78,8 @@ private constructor(
         }
 
         /**
-         * The cursor for the request. Used to get the next group of Players. This should be the
-         * nextCursor from the prior response.
+         * The cursor for the request. Used to get the next group of Players. This is an opaque
+         * token — pass the nextCursor value from the prior response unchanged.
          */
         fun cursor(cursor: String?) = apply { this.cursor = cursor }
 
