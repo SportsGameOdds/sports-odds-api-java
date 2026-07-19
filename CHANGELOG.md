@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.5.0 (2026-07-19)
+
+Full Changelog: [v1.4.0...v1.5.0](https://github.com/SportsGameOdds/sports-odds-api-java/compare/v1.4.0...v1.5.0)
+
+### Features
+
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([20a0ece](https://github.com/SportsGameOdds/sports-odds-api-java/commit/20a0ece4932cda94d9df3d19f4954027e2fc04c3))
+
 ## [1.4.0](https://github.com/SportsGameOdds/sports-odds-api-java/compare/v1.3.0...v1.4.0) (2026-07-18)
 
 
