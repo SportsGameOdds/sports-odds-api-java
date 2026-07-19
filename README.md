@@ -4,8 +4,8 @@ Get live betting odds, spreads, and totals for NFL, NBA, MLB, and 50 additional 
 Production-ready Java SDK with 99.9% uptime and sub-minute updates during live games.
 Perfect for developers building sportsbook platforms, odds comparison tools, positive EV models, and anything else that requires fast, accurate sports data.
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.sportsgameodds.api/sports-odds-api)](https://central.sonatype.com/artifact/com.sportsgameodds.api/sports-odds-api/1.2.1)
-[![javadoc](https://javadoc.io/badge2/com.sportsgameodds.api/sports-odds-api/1.2.1/javadoc.svg)](https://javadoc.io/doc/com.sportsgameodds.api/sports-odds-api/1.2.1)
+[![Maven Central](https://img.shields.io/maven-central/v/com.sportsgameodds.api/sports-odds-api)](https://central.sonatype.com/artifact/com.sportsgameodds.api/sports-odds-api/1.4.0)
+[![javadoc](https://javadoc.io/badge2/com.sportsgameodds.api/sports-odds-api/1.4.0/javadoc.svg)](https://javadoc.io/doc/com.sportsgameodds.api/sports-odds-api/1.4.0)
 
 This library provides convenient access to the Sports Game Odds REST API from applications written in Java.
 
@@ -24,7 +24,7 @@ Use the Sports Game Odds MCP Server to enable AI assistants to interact with thi
 
 **For developers building the next generation of sports stats and/or betting applications:**
 
-The REST API documentation can be found on [sportsgameodds.com](https://sportsgameodds.com/docs/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.sportsgameodds.api/sports-odds-api/1.2.1).
+The REST API documentation can be found on [sportsgameodds.com](https://sportsgameodds.com/docs/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.sportsgameodds.api/sports-odds-api/1.4.0).
 
 <!-- x-release-please-end -->
 - 📈 **3k+ odds markets** including moneylines, spreads, over/unders, team props, player props & more
@@ -41,7 +41,7 @@ The REST API documentation can be found on [sportsgameodds.com](https://sportsga
 ### Gradle
 
 ```kotlin
-implementation("com.sportsgameodds.api:sports-odds-api:1.2.1")
+implementation("com.sportsgameodds.api:sports-odds-api:1.4.0")
 ```
 
 ### Maven
@@ -50,7 +50,7 @@ implementation("com.sportsgameodds.api:sports-odds-api:1.2.1")
 <dependency>
   <groupId>com.sportsgameodds.api</groupId>
   <artifactId>sports-odds-api</artifactId>
-  <version>1.2.1</version>
+  <version>1.4.0</version>
 </dependency>
 ```
 
