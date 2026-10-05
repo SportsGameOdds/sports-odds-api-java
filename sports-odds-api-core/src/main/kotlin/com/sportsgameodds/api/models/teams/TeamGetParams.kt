@@ -36,7 +36,10 @@ private constructor(
     /** A single sportID or comma-separated list of sportIDs to get Teams for */
     fun sportId(): Optional<String> = Optional.ofNullable(sportId)
 
-    /** A single teamID or comma-separated list of teamIDs to get data for */
+    /**
+     * A single teamID or comma-separated list of teamIDs to get data for. If a teamID has since
+     * changed, the Team which lists it in its aliases is returned
+     */
     fun teamId(): Optional<String> = Optional.ofNullable(teamId)
 
     /** Additional headers to send with the request. */
@@ -111,7 +114,10 @@ private constructor(
         /** Alias for calling [Builder.sportId] with `sportId.orElse(null)`. */
         fun sportId(sportId: Optional<String>) = sportId(sportId.getOrNull())
 
-        /** A single teamID or comma-separated list of teamIDs to get data for */
+        /**
+         * A single teamID or comma-separated list of teamIDs to get data for. If a teamID has since
+         * changed, the Team which lists it in its aliases is returned
+         */
         fun teamId(teamId: String?) = apply { this.teamId = teamId }
 
         /** Alias for calling [Builder.teamId] with `teamId.orElse(null)`. */

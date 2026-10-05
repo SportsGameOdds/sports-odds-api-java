@@ -33,7 +33,10 @@ private constructor(
     /** The maximum number of Players to return */
     fun limit(): Optional<Double> = Optional.ofNullable(limit)
 
-    /** PlayerID to get data for */
+    /**
+     * PlayerID to get data for. If a playerID has since changed, the Player which lists it in its
+     * aliases is returned
+     */
     fun playerId(): Optional<String> = Optional.ofNullable(playerId)
 
     /** TeamID to get Players data for */
@@ -105,7 +108,10 @@ private constructor(
         /** Alias for calling [Builder.limit] with `limit.orElse(null)`. */
         fun limit(limit: Optional<Double>) = limit(limit.getOrNull())
 
-        /** PlayerID to get data for */
+        /**
+         * PlayerID to get data for. If a playerID has since changed, the Player which lists it in
+         * its aliases is returned
+         */
         fun playerId(playerId: String?) = apply { this.playerId = playerId }
 
         /** Alias for calling [Builder.playerId] with `playerId.orElse(null)`. */

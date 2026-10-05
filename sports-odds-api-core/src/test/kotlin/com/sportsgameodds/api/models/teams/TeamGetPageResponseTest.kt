@@ -16,6 +16,7 @@ internal class TeamGetPageResponseTest {
             TeamGetPageResponse.builder()
                 .addData(
                     Team.builder()
+                        .addAlias("string")
                         .coach(Team.Coach.builder().name("name").build())
                         .colors(
                             Team.Colors.builder()
@@ -71,6 +72,7 @@ internal class TeamGetPageResponseTest {
         assertThat(teamGetPageResponse.data().getOrNull())
             .containsExactly(
                 Team.builder()
+                    .addAlias("string")
                     .coach(Team.Coach.builder().name("name").build())
                     .colors(
                         Team.Colors.builder()
@@ -126,6 +128,7 @@ internal class TeamGetPageResponseTest {
             TeamGetPageResponse.builder()
                 .addData(
                     Team.builder()
+                        .addAlias("string")
                         .coach(Team.Coach.builder().name("name").build())
                         .colors(
                             Team.Colors.builder()

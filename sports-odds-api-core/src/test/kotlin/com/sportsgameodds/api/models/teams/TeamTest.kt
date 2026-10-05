@@ -4,6 +4,7 @@ package com.sportsgameodds.api.models.teams
 
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.sportsgameodds.api.core.jsonMapper
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -13,6 +14,7 @@ internal class TeamTest {
     fun create() {
         val team =
             Team.builder()
+                .addAlias("string")
                 .coach(Team.Coach.builder().name("name").build())
                 .colors(
                     Team.Colors.builder()
@@ -55,6 +57,7 @@ internal class TeamTest {
                 )
                 .build()
 
+        assertThat(team.aliases().getOrNull()).containsExactly("string")
         assertThat(team.coach()).contains(Team.Coach.builder().name("name").build())
         assertThat(team.colors())
             .contains(
@@ -106,6 +109,7 @@ internal class TeamTest {
         val jsonMapper = jsonMapper()
         val team =
             Team.builder()
+                .addAlias("string")
                 .coach(Team.Coach.builder().name("name").build())
                 .colors(
                     Team.Colors.builder()
