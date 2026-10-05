@@ -6,6 +6,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.sportsgameodds.api.core.JsonValue
 import com.sportsgameodds.api.core.jsonMapper
 import java.time.OffsetDateTime
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -16,6 +17,7 @@ internal class EventTest {
         val event =
             Event.builder()
                 .activity(Event.Activity.builder().count(0.0).score(0.0).build())
+                .addAlias("string")
                 .eventId("eventID")
                 .info(
                     Event.Info.builder()
@@ -211,6 +213,7 @@ internal class EventTest {
 
         assertThat(event.activity())
             .contains(Event.Activity.builder().count(0.0).score(0.0).build())
+        assertThat(event.aliases().getOrNull()).containsExactly("string")
         assertThat(event.eventId()).contains("eventID")
         assertThat(event.info())
             .contains(
@@ -413,6 +416,7 @@ internal class EventTest {
         val event =
             Event.builder()
                 .activity(Event.Activity.builder().count(0.0).score(0.0).build())
+                .addAlias("string")
                 .eventId("eventID")
                 .info(
                     Event.Info.builder()

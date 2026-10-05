@@ -62,10 +62,16 @@ private constructor(
      */
     fun ended(): Optional<Boolean> = Optional.ofNullable(ended)
 
-    /** An eventID to get Event data for */
+    /**
+     * An eventID to get Event data for. If an eventID has since changed, the Event which lists it
+     * in its aliases is returned
+     */
     fun eventId(): Optional<String> = Optional.ofNullable(eventId)
 
-    /** A comma separated list of eventIDs to get Event data for */
+    /**
+     * A comma separated list of eventIDs to get Event data for. If an eventID has since changed,
+     * the Event which lists it in its aliases is returned
+     */
     fun eventIds(): Optional<String> = Optional.ofNullable(eventIds)
 
     /**
@@ -263,13 +269,19 @@ private constructor(
         /** Alias for calling [Builder.ended] with `ended.orElse(null)`. */
         fun ended(ended: Optional<Boolean>) = ended(ended.getOrNull())
 
-        /** An eventID to get Event data for */
+        /**
+         * An eventID to get Event data for. If an eventID has since changed, the Event which lists
+         * it in its aliases is returned
+         */
         fun eventId(eventId: String?) = apply { this.eventId = eventId }
 
         /** Alias for calling [Builder.eventId] with `eventId.orElse(null)`. */
         fun eventId(eventId: Optional<String>) = eventId(eventId.getOrNull())
 
-        /** A comma separated list of eventIDs to get Event data for */
+        /**
+         * A comma separated list of eventIDs to get Event data for. If an eventID has since
+         * changed, the Event which lists it in its aliases is returned
+         */
         fun eventIds(eventIds: String?) = apply { this.eventIds = eventIds }
 
         /** Alias for calling [Builder.eventIds] with `eventIds.orElse(null)`. */

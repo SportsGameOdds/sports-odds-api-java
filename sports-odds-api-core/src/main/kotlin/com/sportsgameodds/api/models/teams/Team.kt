@@ -21,6 +21,7 @@ import kotlin.jvm.optionals.getOrNull
 class Team
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
+    private val aliases: JsonField<List<String>>,
     private val coach: JsonField<Coach>,
     private val colors: JsonField<Colors>,
     private val leagueId: JsonField<String>,
@@ -37,6 +38,9 @@ private constructor(
 
     @JsonCreator
     private constructor(
+        @JsonProperty("aliases")
+        @ExcludeMissing
+        aliases: JsonField<List<String>> = JsonMissing.of(),
         @JsonProperty("coach") @ExcludeMissing coach: JsonField<Coach> = JsonMissing.of(),
         @JsonProperty("colors") @ExcludeMissing colors: JsonField<Colors> = JsonMissing.of(),
         @JsonProperty("leagueID") @ExcludeMissing leagueId: JsonField<String> = JsonMissing.of(),
@@ -51,6 +55,7 @@ private constructor(
         @JsonProperty("teamID") @ExcludeMissing teamId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("venue") @ExcludeMissing venue: JsonField<Venue> = JsonMissing.of(),
     ) : this(
+        aliases,
         coach,
         colors,
         leagueId,
@@ -64,6 +69,12 @@ private constructor(
         venue,
         mutableMapOf(),
     )
+
+    /**
+     * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type (e.g. if
+     *   the server responded with an unexpected value).
+     */
+    fun aliases(): Optional<List<String>> = aliases.getOptional("aliases")
 
     /**
      * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type (e.g. if
@@ -130,6 +141,13 @@ private constructor(
      *   the server responded with an unexpected value).
      */
     fun venue(): Optional<Venue> = venue.getOptional("venue")
+
+    /**
+     * Returns the raw JSON value of [aliases].
+     *
+     * Unlike [aliases], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("aliases") @ExcludeMissing fun _aliases(): JsonField<List<String>> = aliases
 
     /**
      * Returns the raw JSON value of [coach].
@@ -229,6 +247,7 @@ private constructor(
     /** A builder for [Team]. */
     class Builder internal constructor() {
 
+        private var aliases: JsonField<MutableList<String>>? = null
         private var coach: JsonField<Coach> = JsonMissing.of()
         private var colors: JsonField<Colors> = JsonMissing.of()
         private var leagueId: JsonField<String> = JsonMissing.of()
@@ -244,6 +263,7 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(team: Team) = apply {
+            aliases = team.aliases.map { it.toMutableList() }
             coach = team.coach
             colors = team.colors
             leagueId = team.leagueId
@@ -256,6 +276,31 @@ private constructor(
             teamId = team.teamId
             venue = team.venue
             additionalProperties = team.additionalProperties.toMutableMap()
+        }
+
+        fun aliases(aliases: List<String>) = aliases(JsonField.of(aliases))
+
+        /**
+         * Sets [Builder.aliases] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.aliases] with a well-typed `List<String>` value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun aliases(aliases: JsonField<List<String>>) = apply {
+            this.aliases = aliases.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [String] to [aliases].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addAlias(alias: String) = apply {
+            aliases =
+                (aliases ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("aliases", it).add(alias)
+                }
         }
 
         fun coach(coach: Coach) = coach(JsonField.of(coach))
@@ -395,6 +440,7 @@ private constructor(
          */
         fun build(): Team =
             Team(
+                (aliases ?: JsonMissing.of()).map { it.toImmutable() },
                 coach,
                 colors,
                 leagueId,
@@ -425,6 +471,7 @@ private constructor(
             return@apply
         }
 
+        aliases()
         coach().ifPresent { it.validate() }
         colors().ifPresent { it.validate() }
         leagueId()
@@ -454,7 +501,8 @@ private constructor(
      */
     @JvmSynthetic
     internal fun validity(): Int =
-        (coach.asKnown().getOrNull()?.validity() ?: 0) +
+        (aliases.asKnown().getOrNull()?.size ?: 0) +
+            (coach.asKnown().getOrNull()?.validity() ?: 0) +
             (colors.asKnown().getOrNull()?.validity() ?: 0) +
             (if (leagueId.asKnown().isPresent) 1 else 0) +
             (if (logo.asKnown().isPresent) 1 else 0) +
@@ -2234,6 +2282,7 @@ private constructor(
         }
 
         return other is Team &&
+            aliases == other.aliases &&
             coach == other.coach &&
             colors == other.colors &&
             leagueId == other.leagueId &&
@@ -2250,6 +2299,7 @@ private constructor(
 
     private val hashCode: Int by lazy {
         Objects.hash(
+            aliases,
             coach,
             colors,
             leagueId,
@@ -2268,5 +2318,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Team{coach=$coach, colors=$colors, leagueId=$leagueId, logo=$logo, lookups=$lookups, names=$names, owner=$owner, sportId=$sportId, standings=$standings, teamId=$teamId, venue=$venue, additionalProperties=$additionalProperties}"
+        "Team{aliases=$aliases, coach=$coach, colors=$colors, leagueId=$leagueId, logo=$logo, lookups=$lookups, names=$names, owner=$owner, sportId=$sportId, standings=$standings, teamId=$teamId, venue=$venue, additionalProperties=$additionalProperties}"
 }

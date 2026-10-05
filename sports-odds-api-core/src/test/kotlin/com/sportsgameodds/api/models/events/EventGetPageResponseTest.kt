@@ -19,6 +19,7 @@ internal class EventGetPageResponseTest {
                 .addData(
                     Event.builder()
                         .activity(Event.Activity.builder().count(0.0).score(0.0).build())
+                        .addAlias("string")
                         .eventId("eventID")
                         .info(
                             Event.Info.builder()
@@ -224,6 +225,7 @@ internal class EventGetPageResponseTest {
             .containsExactly(
                 Event.builder()
                     .activity(Event.Activity.builder().count(0.0).score(0.0).build())
+                    .addAlias("string")
                     .eventId("eventID")
                     .info(
                         Event.Info.builder()
@@ -434,6 +436,7 @@ internal class EventGetPageResponseTest {
                 .addData(
                     Event.builder()
                         .activity(Event.Activity.builder().count(0.0).score(0.0).build())
+                        .addAlias("string")
                         .eventId("eventID")
                         .info(
                             Event.Info.builder()

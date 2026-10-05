@@ -24,6 +24,7 @@ class Event
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val activity: JsonField<Activity>,
+    private val aliases: JsonField<List<String>>,
     private val eventId: JsonField<String>,
     private val info: JsonField<Info>,
     private val leagueId: JsonField<String>,
@@ -41,6 +42,9 @@ private constructor(
     @JsonCreator
     private constructor(
         @JsonProperty("activity") @ExcludeMissing activity: JsonField<Activity> = JsonMissing.of(),
+        @JsonProperty("aliases")
+        @ExcludeMissing
+        aliases: JsonField<List<String>> = JsonMissing.of(),
         @JsonProperty("eventID") @ExcludeMissing eventId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("info") @ExcludeMissing info: JsonField<Info> = JsonMissing.of(),
         @JsonProperty("leagueID") @ExcludeMissing leagueId: JsonField<String> = JsonMissing.of(),
@@ -54,6 +58,7 @@ private constructor(
         @JsonProperty("type") @ExcludeMissing type: JsonField<String> = JsonMissing.of(),
     ) : this(
         activity,
+        aliases,
         eventId,
         info,
         leagueId,
@@ -73,6 +78,12 @@ private constructor(
      *   the server responded with an unexpected value).
      */
     fun activity(): Optional<Activity> = activity.getOptional("activity")
+
+    /**
+     * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type (e.g. if
+     *   the server responded with an unexpected value).
+     */
+    fun aliases(): Optional<List<String>> = aliases.getOptional("aliases")
 
     /**
      * @throws SportsGameOddsInvalidDataException if the JSON field has an unexpected type (e.g. if
@@ -148,6 +159,13 @@ private constructor(
      * Unlike [activity], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("activity") @ExcludeMissing fun _activity(): JsonField<Activity> = activity
+
+    /**
+     * Returns the raw JSON value of [aliases].
+     *
+     * Unlike [aliases], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("aliases") @ExcludeMissing fun _aliases(): JsonField<List<String>> = aliases
 
     /**
      * Returns the raw JSON value of [eventId].
@@ -248,6 +266,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var activity: JsonField<Activity> = JsonMissing.of()
+        private var aliases: JsonField<MutableList<String>>? = null
         private var eventId: JsonField<String> = JsonMissing.of()
         private var info: JsonField<Info> = JsonMissing.of()
         private var leagueId: JsonField<String> = JsonMissing.of()
@@ -264,6 +283,7 @@ private constructor(
         @JvmSynthetic
         internal fun from(event: Event) = apply {
             activity = event.activity
+            aliases = event.aliases.map { it.toMutableList() }
             eventId = event.eventId
             info = event.info
             leagueId = event.leagueId
@@ -288,6 +308,31 @@ private constructor(
          * value.
          */
         fun activity(activity: JsonField<Activity>) = apply { this.activity = activity }
+
+        fun aliases(aliases: List<String>) = aliases(JsonField.of(aliases))
+
+        /**
+         * Sets [Builder.aliases] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.aliases] with a well-typed `List<String>` value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun aliases(aliases: JsonField<List<String>>) = apply {
+            this.aliases = aliases.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [String] to [aliases].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addAlias(alias: String) = apply {
+            aliases =
+                (aliases ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("aliases", it).add(alias)
+                }
+        }
 
         fun eventId(eventId: String) = eventId(JsonField.of(eventId))
 
@@ -427,6 +472,7 @@ private constructor(
         fun build(): Event =
             Event(
                 activity,
+                (aliases ?: JsonMissing.of()).map { it.toImmutable() },
                 eventId,
                 info,
                 leagueId,
@@ -458,6 +504,7 @@ private constructor(
         }
 
         activity().ifPresent { it.validate() }
+        aliases()
         eventId()
         info().ifPresent { it.validate() }
         leagueId()
@@ -488,6 +535,7 @@ private constructor(
     @JvmSynthetic
     internal fun validity(): Int =
         (activity.asKnown().getOrNull()?.validity() ?: 0) +
+            (aliases.asKnown().getOrNull()?.size ?: 0) +
             (if (eventId.asKnown().isPresent) 1 else 0) +
             (info.asKnown().getOrNull()?.validity() ?: 0) +
             (if (leagueId.asKnown().isPresent) 1 else 0) +
@@ -5099,6 +5147,7 @@ private constructor(
 
         return other is Event &&
             activity == other.activity &&
+            aliases == other.aliases &&
             eventId == other.eventId &&
             info == other.info &&
             leagueId == other.leagueId &&
@@ -5116,6 +5165,7 @@ private constructor(
     private val hashCode: Int by lazy {
         Objects.hash(
             activity,
+            aliases,
             eventId,
             info,
             leagueId,
@@ -5134,5 +5184,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Event{activity=$activity, eventId=$eventId, info=$info, leagueId=$leagueId, manual=$manual, odds=$odds, players=$players, results=$results, sportId=$sportId, status=$status, teams=$teams, type=$type, additionalProperties=$additionalProperties}"
+        "Event{activity=$activity, aliases=$aliases, eventId=$eventId, info=$info, leagueId=$leagueId, manual=$manual, odds=$odds, players=$players, results=$results, sportId=$sportId, status=$status, teams=$teams, type=$type, additionalProperties=$additionalProperties}"
 }

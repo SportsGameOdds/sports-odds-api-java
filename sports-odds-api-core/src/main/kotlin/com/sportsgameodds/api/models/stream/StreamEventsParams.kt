@@ -19,7 +19,10 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    /** An eventID to stream events for */
+    /**
+     * An eventID to stream events for. If the eventID has since changed, the Event which lists it
+     * in its aliases is streamed
+     */
     fun eventId(): Optional<String> = Optional.ofNullable(eventId)
 
     /** The feed you would like to subscribe to */
@@ -62,7 +65,10 @@ private constructor(
             additionalQueryParams = streamEventsParams.additionalQueryParams.toBuilder()
         }
 
-        /** An eventID to stream events for */
+        /**
+         * An eventID to stream events for. If the eventID has since changed, the Event which lists
+         * it in its aliases is streamed
+         */
         fun eventId(eventId: String?) = apply { this.eventId = eventId }
 
         /** Alias for calling [Builder.eventId] with `eventId.orElse(null)`. */

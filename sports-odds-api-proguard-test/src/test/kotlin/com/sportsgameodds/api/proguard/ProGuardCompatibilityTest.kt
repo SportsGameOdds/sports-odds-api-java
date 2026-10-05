@@ -66,6 +66,7 @@ internal class ProGuardCompatibilityTest {
         val event =
             Event.builder()
                 .activity(Event.Activity.builder().count(0.0).score(0.0).build())
+                .addAlias("string")
                 .eventId("eventID")
                 .info(
                     Event.Info.builder()
